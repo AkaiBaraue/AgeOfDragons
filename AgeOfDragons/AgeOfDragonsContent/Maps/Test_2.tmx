@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="test_tileset" tilewidth="32" tileheight="32">
+  <image source="../../../../../Coding/Textures/Tiles/test_tileset.png" width="384" height="320"/>
+ </tileset>
+ <tileset firstgid="121" name="collision" tilewidth="32" tileheight="32">
+  <image source="../Textures/TileSets/collision.png" width="160" height="32"/>
+ </tileset>
+ <layer name="background" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYmBgYBrFo3gUj+IhgAGH6wJZ
+  </data>
+ </layer>
+ <layer name="dirt" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAOqAMxKxGYWDBq3qh5A2mePhCrQbEOkn5tJHE1EszD5VYNMs0YyebhAwDyPAWn
+  </data>
+ </layer>
+ <layer name="water" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJwzZ2BgMKIStgBiEwbqAeMhbp4lEBsCsRWVzAPJFxFQQ4p51gyQeLOhknmkglHzhr95pgyQPEANbAbEAFTfDzI=
+  </data>
+ </layer>
+ <layer name="buildingFloor" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBhegA0HHjVvYMwbBaOAVKAPxBxQbIAmBwBQSgEk
+  </data>
+ </layer>
+ <layer name="buildingWalls" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBheIBqIw9BwDAXmRWARCx/G5kUCcSgajqLAvFEwCqgJAL85BiQ=
+  </data>
+ </layer>
+ <layer name="vegetation" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBiZIBGHeBJdXUEcSB5oBxAAuMJysAFK45bYeEhHYqdRaCelAJebh0qcoQMA1MED3g==
+  </data>
+ </layer>
+ <layer name="collision" width="20" height="15" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJyrYmBgqKIyphYgx7xaHJgS83CJETIPW5gMBfOoGX74wKh5I8M8SsoQdHEAA9krlQ==
+  </data>
+ </layer>
+</map>

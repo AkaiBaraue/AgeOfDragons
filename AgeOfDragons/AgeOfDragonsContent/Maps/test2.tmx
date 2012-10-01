@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="10" height="10" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="test_tileset" tilewidth="32" tileheight="32">
+  <image source="D:/My Saved Documents/Coding/Textures/Tiles/test_tileset.png" width="384" height="320"/>
+ </tileset>
+ <tileset firstgid="121" name="collision" tilewidth="32" tileheight="32">
+  <image source="D:/My Saved Documents/Coding/Textures/Tiles/collision.png" width="160" height="32"/>
+ </tileset>
+ <layer name="background" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYmBgYCISs6HhwaZuOGAA5+ABCQ==
+  </data>
+ </layer>
+ <layer name="water" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJwzZ2BgMCKALYDYhIEwMB4h6iyB2BCIzQioA5lTAMRFQGwK1YMNg8zJA+JcIAYABWoI8w==
+  </data>
+ </layer>
+ <layer name="building" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAeRANxGBTH4FEXgcQOp4K6SCCOA+JYII4i4MahDgC8eAQw
+  </data>
+ </layer>
+ <layer name="object" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAvyKSCGRlUMAMbSMUilkwju3ABADCDAZo=
+  </data>
+ </layer>
+ <layer name="collision" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJyrYmBgqCIS16LhSjSMrA4mRk916OK0UoceLsSqIwYDAJwTL5U=
+  </data>
+ </layer>
+</map>
