@@ -106,28 +106,28 @@ namespace AgeOfDragons.Tile_Engine
             if (InputHandler.KeyDown(Keys.Left))
             {
                 this.position.X = MathHelper.Clamp(
-                    this.Position.X - this.speed, 0, (level.LevelMap.MapWidth - level.LevelWidth) * Engine.TileWidth);
+                    this.Position.X - this.speed, 0, (level.LevelMap.MapWidth - Engine.SquaresAcross) * Engine.TileWidth);
             }
 
             // Moves the camera to the right, but makes sure it does nto leave the screen.
             if (InputHandler.KeyDown(Keys.Right))
             {
                 this.position.X = MathHelper.Clamp(
-                    this.Position.X + this.speed, 0, (level.LevelMap.MapWidth - level.LevelWidth) * Engine.TileWidth);
+                    this.Position.X + this.speed, 0, (level.LevelMap.MapWidth - Engine.SquaresAcross) * Engine.TileWidth);
             }
 
             // Moves the camera up, but makes sure it does nto leave the screen.
             if (InputHandler.KeyDown(Keys.Up))
             {
                 this.position.Y = MathHelper.Clamp(
-                    this.Position.Y - this.speed, 0, (level.LevelMap.MapHeight - level.LevelHeight) * Engine.TileHeight);
+                    this.Position.Y - this.speed, 0, (level.LevelMap.MapHeight - Engine.SquaresDown) * Engine.TileHeight);
             }
 
             // Moves the camera down, but makes sure it does nto leave the screen.
             if (InputHandler.KeyDown(Keys.Down))
             {
                 this.position.Y = MathHelper.Clamp(
-                    this.Position.Y + this.speed, 0, (level.LevelMap.MapHeight - level.LevelHeight) * Engine.TileHeight);
+                    this.Position.Y + this.speed, 0, (level.LevelMap.MapHeight - Engine.SquaresDown) * Engine.TileHeight);
             }
         }
 

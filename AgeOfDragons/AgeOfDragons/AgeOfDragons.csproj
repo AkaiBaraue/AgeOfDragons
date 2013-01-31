@@ -113,8 +113,9 @@
   <ItemGroup>
     <Compile Include="Components\IPlayer.cs" />
     <Compile Include="Components\Level.cs" />
+    <Compile Include="Components\NPCPlayer.cs" />
     <Compile Include="Helper Classes\MapLoader.cs" />
-    <Compile Include="Components\Player.cs" />
+    <Compile Include="Components\HumanPlayer.cs" />
     <Compile Include="Helper Classes\PriorityQueue.cs" />
     <Compile Include="Helper Classes\XMLParser.cs" />
     <Compile Include="Helper Classes\Directories.cs" />

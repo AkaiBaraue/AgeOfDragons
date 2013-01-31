@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Player.cs" company="Baraue">
+// <copyright file="HumanPlayer.cs" company="Baraue">
 //   o/
 // </copyright>
 // <summary>
@@ -18,7 +18,7 @@ namespace AgeOfDragons.Components
     /// <summary>
     /// A class that represents the player in the game
     /// </summary>
-    public class HumanPlayer : IPlayer
+    public class HumanPlayer : Player
     {
         #region Field Region
 
@@ -48,10 +48,9 @@ namespace AgeOfDragons.Components
         /// <summary>
         /// Initializes a new instance of the <see cref="HumanPlayer"/> class.
         /// </summary>
-        public HumanPlayer(IPlayer nextPlayer)
+        public HumanPlayer()
         {
             this.unitSelected = false;
-            this.NextPlayer = nextPlayer;
         }
 
         #endregion
@@ -147,6 +146,13 @@ namespace AgeOfDragons.Components
 
         #endregion
 
+        #region Virtual Method Region
+
+        public override void StartTurn()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override void TakeTurn()
         {
             throw new System.NotImplementedException();
@@ -156,5 +162,7 @@ namespace AgeOfDragons.Components
         {
             throw new System.NotImplementedException();
         }
+
+        #endregion
     }
 }

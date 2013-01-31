@@ -14,7 +14,7 @@ namespace AgeOfDragons.Components
     using Microsoft.Xna.Framework;
 
     /// <summary>
-    /// TODO: Update summary.
+    /// A class that controls an entire level.
     /// </summary>
     public class Level
     {
@@ -23,28 +23,40 @@ namespace AgeOfDragons.Components
 
         #region Property Region
 
-        public int LevelHeight { get; private set; }
-
-        public int LevelWidth { get; private set; }
-
+        /// <summary>
+        /// Gets the camera tied to the level.
+        /// </summary>
         public Camera Camera { get; private set; }
 
+        /// <summary>
+        /// Gets the map of the level.
+        /// </summary>
         public Map LevelMap { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the player units in the level.
+        /// </summary>
         public List<PlayerUnit> LevelPlayerUnits { get; set; }
 
+        /// <summary>
+        /// Gets or sets npc units in the level.
+        /// </summary>
         public List<NPCUnit> LevelNPCUnits { get; set; }
 
         #endregion
 
         #region Constructor Region
 
-        public Level(int levelHeight, int levelWidth, Camera camera, Map levelMap, List<PlayerUnit> playerUnits, List<NPCUnit> npcUnits)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Level"/> class.
+        /// </summary>
+        /// <param name="camera"> </param>
+        /// <param name="levelMap"> </param>
+        /// <param name="playerUnits"> </param>
+        /// <param name="npcUnits"> </param>
+        public Level(Camera camera, Map levelMap, List<PlayerUnit> playerUnits, List<NPCUnit> npcUnits)
         {
-            this.LevelHeight = levelHeight;
-            this.LevelWidth = levelWidth;
             this.Camera = camera;
-
             this.LevelMap = levelMap;
             this.LevelPlayerUnits = playerUnits;
             this.LevelNPCUnits = npcUnits;

@@ -49,6 +49,16 @@ namespace AgeOfDragons.Tile_Engine
         }
 
         /// <summary>
+        /// Gets the squares across.
+        /// </summary>
+        public static int SquaresAcross { get; private set; }
+
+        /// <summary>
+        /// Gets the squares down.
+        /// </summary>
+        public static int SquaresDown { get; private set; }
+
+        /// <summary>
         /// Gets or sets the Fog of War texture.
         /// </summary>
         public static Texture2D FoWTexture { get; set; }
@@ -67,10 +77,25 @@ namespace AgeOfDragons.Tile_Engine
         /// </summary>
         /// <param name="widthOfTile"> The width of a tile. </param>
         /// <param name="heightOfTile"> The height of a tile. </param>
-        public Engine(int widthOfTile, int heightOfTile)
+        /// <param name="squaresAcross"> The amount of squares shown horizontally </param>
+        /// <param name="squaresDown"> The amount of squares shown vertically </param>
+        public Engine(int widthOfTile, int heightOfTile, int squaresAcross, int squaresDown)
         {
             tileWidth = widthOfTile;
             tileHeight = heightOfTile;
+            SquaresAcross = squaresAcross;
+            SquaresDown = squaresDown;
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Engine"/> class.
+        /// </summary>
+        /// <param name="widthOfTile"> The width of a tile. </param>
+        /// <param name="heightOfTile"> The height of a tile. </param>
+        public Engine(int widthOfTile, int heightOfTile)
+            : this(widthOfTile, heightOfTile, 18, 11)
+        {
         }
 
         #endregion

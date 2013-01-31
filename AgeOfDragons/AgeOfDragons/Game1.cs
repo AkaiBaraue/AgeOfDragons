@@ -74,16 +74,6 @@ namespace AgeOfDragons
         #region Properties
 
         /// <summary>
-        /// Gets the squares across.
-        /// </summary>
-        public int SquaresAcross { get; private set; }
-
-        /// <summary>
-        /// Gets the squares down.
-        /// </summary>
-        public int SquaresDown { get; private set; }
-
-        /// <summary>
         /// Gets the map.
         /// </summary>
         public Level CurrentLevel
@@ -117,22 +107,16 @@ namespace AgeOfDragons
         {
             Content.RootDirectory = "Content";
 
-            // Sets the maximum amount of tiles to be shown at one time
-            // Across is actually the height of the screen, and down is
-            // the width of the screen, but don't think about it. 
-            this.SquaresAcross = 11;
-            this.SquaresDown = 18;
-
             // Creates a new GraphicsDeviceManager and sets the height and
             // width to the SquaresDown/Across * the width/height of a tile.
             this.graphics = new GraphicsDeviceManager(this)
                 {
-                    PreferredBackBufferWidth = this.SquaresDown * Engine.TileWidth,
-                    PreferredBackBufferHeight = this.SquaresAcross * Engine.TileHeight
+                    PreferredBackBufferWidth = Engine.SquaresAcross * Engine.TileWidth,
+                    PreferredBackBufferHeight = Engine.SquaresDown * Engine.TileHeight
                 };
 
             // Initializes player and mapLoader
-            this.player = new HumanPlayer();
+            this.player = new HumanPlayer(null);
             this.mapLoader = new MapLoader();
 
             // Adds the InputHandler to the components collection, allowing it to
@@ -202,8 +186,6 @@ namespace AgeOfDragons
             tempMap.LoadUnits(new List<Unit>(tempNPCUnits));
 
             this.CurrentLevel = new Level(
-                this.SquaresAcross,
-                this.SquaresDown,
                 new Camera(screenRectangle),
                 tempMap,
                 tempPlayerUnits,

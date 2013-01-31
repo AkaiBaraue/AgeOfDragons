@@ -14,7 +14,7 @@ namespace AgeOfDragons.Components
     /// <summary>
     /// TODO: Update summary.
     /// </summary>
-    public class NPCPlayer : IPlayer
+    public class NPCPlayer : Player
     {
         #region Field Region
         #endregion
@@ -24,11 +24,6 @@ namespace AgeOfDragons.Components
 
         #region Constructor Region
 
-        public NPCPlayer(IPlayer nextPlayer)
-        {
-            this.NextPlayer = nextPlayer;
-        }
-
         #endregion
 
         #region Method Region
@@ -36,6 +31,11 @@ namespace AgeOfDragons.Components
 
         #region Virtual Method region
         #endregion
+
+        public override void StartTurn()
+        {
+            throw new NotImplementedException();
+        }
 
         public override void TakeTurn()
         {
