@@ -9,8 +9,6 @@
 
 namespace AgeOfDragons.Components
 {
-    using System;
-
     using AgeOfDragons.Pathfinding;
     using AgeOfDragons.Tile_Engine;
     using AgeOfDragons.Units;
@@ -20,7 +18,7 @@ namespace AgeOfDragons.Components
     /// <summary>
     /// A class that represents the player in the game
     /// </summary>
-    public class Player
+    public class HumanPlayer : IPlayer
     {
         #region Field Region
 
@@ -48,11 +46,12 @@ namespace AgeOfDragons.Components
         #region Constructor Region
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Player"/> class.
+        /// Initializes a new instance of the <see cref="HumanPlayer"/> class.
         /// </summary>
-        public Player()
+        public HumanPlayer(IPlayer nextPlayer)
         {
             this.unitSelected = false;
+            this.NextPlayer = nextPlayer;
         }
 
         #endregion
@@ -63,8 +62,8 @@ namespace AgeOfDragons.Components
         /// Updates the player.
         /// </summary>
         /// <param name="gameTime"> The game time. </param>
-        /// <param name="gameRef"> A snapshot of the game. </param>
-        public void Update(GameTime gameTime, Game1 gameRef)
+        /// <param name="level"> The level in progress. </param>
+        public void Update(GameTime gameTime, Level level)
         {
             this.justClicked = false;
 
@@ -75,23 +74,26 @@ namespace AgeOfDragons.Components
                 // Note! MouseState.X is the horizontal position and MouseState.Y is the vertical position.
                 // I want Y to be the horizontal coordinate (the width) and X to be the vertical coordinate
                 // (the height), so tileY is using the X values and tileX is using the Y values.
-                var tileY = (int)(InputHandler.MouseState.X + gameRef.Camera.Position.X) / Engine.TileHeight;
-                var tileX = (int)(InputHandler.MouseState.Y + gameRef.Camera.Position.Y) / Engine.TileWidth;
+                var tileY = (int)(InputHandler.MouseState.X + level.Camera.Position.X) / Engine.TileHeight;
+                var tileX = (int)(InputHandler.MouseState.Y + level.Camera.Position.Y) / Engine.TileWidth;
 
-                foreach (var playerUnit in gameRef.PlayerUnits)
+                foreach (var playerUnit in level.LevelPlayerUnits)
                 {
                     // Checks if the unit matches the tile that was clicked.
                     if (playerUnit.Location.X == tileX &&
                         playerUnit.Location.Y == tileY)
                     {
-                        // Selects the unit.
+                        // Selects the unit and thereby changes the animation of the unit.
                         playerUnit.Select();
                         this.unitSelected = true;
                         this.selectedUnit = playerUnit;
-                        gameRef.Map.MarkValidMoves(this.selectedUnit);
+
+                        // Finds the area which the unit can walk to.
+                        level.LevelMap.MarkValidMoves(this.selectedUnit);
                     }
                 }
 
+                // Ensures that other parts in the update method won't be triggered.
                 this.justClicked = true;
             }
 
@@ -102,44 +104,57 @@ namespace AgeOfDragons.Components
                 // Note! MouseState.X is the horizontal position and MouseState.Y is the vertical position.
                 // I want Y to be the horizontal coordinate (the width) and X to be the vertical coordinate
                 // (the height), so tileY is using the X values and tileX is using the Y values.
-                var tileY = (int)(InputHandler.MouseState.X + gameRef.Camera.Position.X) / Engine.TileHeight;
-                var tileX = (int)(InputHandler.MouseState.Y + gameRef.Camera.Position.Y) / Engine.TileWidth;
+                var tileY = (int)(InputHandler.MouseState.X + level.Camera.Position.X) / Engine.TileHeight;
+                var tileX = (int)(InputHandler.MouseState.Y + level.Camera.Position.Y) / Engine.TileWidth;
+
+                var tempVector = new Vector(tileX, tileY);
 
                 // Checks if the chosen tile is occupied or not.
-                if (!gameRef.Map.IsOccupied(tileX, tileY) &&
-                    this.selectedUnit.CanTraverse(gameRef.Map.GetCollisionType(tileX, tileY)) &&
-                    (Math.Abs(tileX - this.selectedUnit.Location.X) + Math.Abs(tileY - this.selectedUnit.Location.Y) <= this.selectedUnit.MoveRange))
+                if (!level.LevelMap.IsOccupied(tileX, tileY) &&
+                    this.selectedUnit.CanTraverse(level.LevelMap.GetCollisionType(tileX, tileY)) &&
+                    this.selectedUnit.PointWithinMoveRange(tempVector))
                 {
-                    var pathToTarget = gameRef.Map.ShortestPath(new Vector(tileX, tileY), this.selectedUnit).Count;
+                    var pathToTarget = level.LevelMap.FindShortestPathWithinReach(this.selectedUnit, tempVector).Count;
                     if (pathToTarget != 0 &&
                         pathToTarget <= this.selectedUnit.MoveRange)
                     {
                         // Removes the unit from the list, as we need to change the
                         // position of the unit.
-                        gameRef.PlayerUnits.Remove(this.selectedUnit);
+                        level.LevelPlayerUnits.Remove(this.selectedUnit);
 
                         // Notifies the map that the unit is disappearing from its current
                         // location.
-                        gameRef.Map.MoveUnitAway(this.selectedUnit, gameRef);
+                        level.LevelMap.MoveUnitAway(this.selectedUnit, level);
 
                         // Changes the unit's location.
-                        this.selectedUnit.Location = new Vector(tileX, tileY);
+                        this.selectedUnit.Location = (Vector)tempVector.Clone();
                         this.selectedUnit.MoveUnit();
 
                         // Notifies the map that the unit has arrived at its target
                         // location and adds the unit to the unit list again.
-                        gameRef.Map.MoveUnitToNewPosition(this.selectedUnit);
-                        gameRef.PlayerUnits.Add(this.selectedUnit);
+                        level.LevelMap.MoveUnitToNewPosition(this.selectedUnit);
+                        level.LevelPlayerUnits.Add(this.selectedUnit);
 
                         this.unitSelected = false;
                         this.selectedUnit = null;
                     }
                 }
 
+                // Ensures that other parts in the update method won't be triggered.
                 this.justClicked = true;
             }
         }
 
         #endregion
+
+        public override void TakeTurn()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void EndTurn()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

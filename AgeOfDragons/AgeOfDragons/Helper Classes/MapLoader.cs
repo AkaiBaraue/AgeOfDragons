@@ -67,7 +67,7 @@ namespace AgeOfDragons.Helper_Classes
         /// <returns>
         /// The TileMap created from the Tmx file.
         /// </returns>
-        public TileMap LoadTmxFile(string mapName, Game1 gameRef)
+        public Map LoadTmxFile(string mapName, Game1 gameRef)
         {
             return this.xmlParser.LoadTmxMap(mapName, gameRef);
         }
@@ -78,7 +78,7 @@ namespace AgeOfDragons.Helper_Classes
         /// <param name="fileName"> The name of the file to load. </param>
         /// <param name="gameRef"> A snapshot of the game. </param>
         /// <returns> A TileMap made from the data in the file. </returns>
-        public TileMap LoadTxtFile(string fileName, Game1 gameRef)
+        public Map LoadTxtFile(string fileName, Game1 gameRef)
         {
             var lines = new List<string>();
             this.layers = new List<MapLayer>();
@@ -107,7 +107,7 @@ namespace AgeOfDragons.Helper_Classes
         /// <returns>
         /// A TileMap.
         /// </returns>
-        private TileMap MakeMap(string[] lines, Game1 gameRef)
+        private Map MakeMap(string[] lines, Game1 gameRef)
         {
             int height = 0, width = 0;
 
@@ -138,7 +138,7 @@ namespace AgeOfDragons.Helper_Classes
                 }
             }
 
-            return new TileMap(this.tilesets, this.layers);
+            return new Map(this.tilesets, this.layers);
         }
 
         /// <summary>

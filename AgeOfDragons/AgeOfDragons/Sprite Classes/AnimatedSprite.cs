@@ -38,6 +38,17 @@ namespace AgeOfDragons.Sprite_Classes
         /// The current animation.
         /// </summary>
         private AnimationKey currentAnimation;
+
+        /// <summary>
+        /// The next amination the sprite is supposed to switch to.
+        /// </summary>
+        private AnimationKey nextAnimation;
+
+        /// <summary>
+        /// Tells the sprite if it is supposed to switch to another
+        /// animation upon completing the current one or not.
+        /// </summary>
+        private bool switchAnimation;
         
         /// <summary>
         /// Decides if the animation is running or not.
@@ -143,6 +154,18 @@ namespace AgeOfDragons.Sprite_Classes
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public void Update(GameTime gameTime)
         {
+            // If the sprite has been told to switch to another animation, 
+            // it will do so when the current one finishes.
+            if (AnimationControl.CurrentFrame == 0 &&
+                this.nextAnimation != AnimationKey.None &&
+                this.switchAnimation)
+            {
+                this.CurrentAnimation = this.nextAnimation;
+                this.nextAnimation = AnimationKey.None;
+                this.switchAnimation = false;
+            }
+
+            // Updates the animation.
             if (this.isAnimating)
             {
                 this.animations[this.currentAnimation].Update(gameTime);
@@ -150,7 +173,19 @@ namespace AgeOfDragons.Sprite_Classes
         }
 
         /// <summary>
-        /// Updates the animated sprite.
+        /// Tells the sprite that it is supposed to switch to another animation.
+        /// </summary>
+        /// <param name="animationToSwitchTo">
+        /// The next animation to switch to.
+        /// </param>
+        public void SwitchAnimationTo(AnimationKey animationToSwitchTo)
+        {
+            this.switchAnimation = true;
+            this.nextAnimation = animationToSwitchTo;
+        }
+
+        /// <summary>
+        /// Resets the animation for the sprite.
         /// </summary>
         public void ResetAnimation()
         {

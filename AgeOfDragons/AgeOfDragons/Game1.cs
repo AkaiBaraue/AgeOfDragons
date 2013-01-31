@@ -9,7 +9,6 @@
 
 namespace AgeOfDragons
 {
-    using System;
     using System.Collections.Generic;
 
     using AgeOfDragons.Components;
@@ -32,14 +31,9 @@ namespace AgeOfDragons
         #region Fields
 
         /// <summary>
-        /// The camera that shows the screen.
-        /// </summary>
-        private readonly Camera camera;
-
-        /// <summary>
         /// The player that controls the game.
         /// </summary>
-        private readonly Player player;
+        private readonly HumanPlayer player;
 
         /// <summary>
         /// The object used for loading maps from files.
@@ -60,24 +54,20 @@ namespace AgeOfDragons
         // ReSharper restore UnusedMember.Local
 
         /// <summary>
-        /// The tilemap.
+        /// An object that makes it possible to synchronize animations
+        /// and control them.
         /// </summary>
-        private TileMap map;
+        private readonly AnimationControl animationControl = new AnimationControl(5, 4);
+
+        /// <summary>
+        /// The level currently in progress.
+        /// </summary>
+        private Level currentLevel;
 
         /// <summary>
         /// The spritebatch that takes care of drawing sprites.
         /// </summary>
-        private SpriteBatch spriteBatch;
-
-        /// <summary>
-        /// The list of the units controlled by the player.
-        /// </summary>
-        private List<PlayerUnit> playerUnits;
-
-        /// <summary>
-        /// The list of the units controlled by the player.
-        /// </summary>
-        private List<NPCUnit> npcUnits;
+        private static SpriteBatch spriteBatch;
 
         #endregion
 
@@ -96,23 +86,16 @@ namespace AgeOfDragons
         /// <summary>
         /// Gets the map.
         /// </summary>
-        public TileMap Map
+        public Level CurrentLevel
         {
-            get { return this.map; }
+            get { return this.currentLevel; }
+            private set { this.currentLevel = value; }
         }
 
         /// <summary>
         /// Gets the camera.
         /// </summary>
-        public Camera Camera
-        {
-            get { return this.camera; }
-        }
-
-        /// <summary>
-        /// Gets the camera.
-        /// </summary>
-        public Player Player
+        public HumanPlayer Player
         {
             get { return this.player; }
         }
@@ -120,27 +103,9 @@ namespace AgeOfDragons
         /// <summary>
         /// Gets the sprite batch.
         /// </summary>
-        public SpriteBatch SpriteBatch
+        public static SpriteBatch SpriteBatch
         {
-            get { return this.spriteBatch; }
-        }
-
-        /// <summary>
-        /// Gets or sets the player units.
-        /// </summary>
-        public List<PlayerUnit> PlayerUnits
-        {
-            get { return this.playerUnits; }
-            set { this.playerUnits = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the player units.
-        /// </summary>
-        public List<NPCUnit> NPCUnits
-        {
-            get { return this.npcUnits; }
-            set { this.npcUnits = value; }
+            get { return spriteBatch; }
         }
 
         #endregion
@@ -166,16 +131,9 @@ namespace AgeOfDragons
                     PreferredBackBufferHeight = this.SquaresAcross * Engine.TileHeight
                 };
 
-            // Makes a rectangle that is used to tell the Camera how much of the game
-            // it is supposed to show at any given time.
-            var screenRectangle = new Rectangle(0, 0, this.graphics.PreferredBackBufferHeight, this.graphics.PreferredBackBufferWidth);
-
-            // Initializes player, camera, mapLoader, playerUnits and npcUnits.
-            this.player = new Player();
-            this.camera = new Camera(screenRectangle);
+            // Initializes player and mapLoader
+            this.player = new HumanPlayer();
             this.mapLoader = new MapLoader();
-            this.playerUnits = new List<PlayerUnit>();
-            this.npcUnits = new List<NPCUnit>();
 
             // Adds the InputHandler to the components collection, allowing it to
             // update whenever the Game1 class updates.
@@ -203,7 +161,11 @@ namespace AgeOfDragons
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            this.spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            // Makes a rectangle that is used to tell the Camera how much of the game
+            // it is supposed to show at any given time.
+            var screenRectangle = new Rectangle(0, 0, this.graphics.PreferredBackBufferHeight, this.graphics.PreferredBackBufferWidth);
 
             // Loads the texture for Fog of War and Valid Move, which are used during the game.
             // Instead of saving it in the tilemap, it is saved with the Engine, as both of them
@@ -211,44 +173,41 @@ namespace AgeOfDragons
             Engine.FoWTexture = this.Content.Load<Texture2D>(@"Textures\TileSets\fow_of_war");
             Engine.ValidMoveTexture = this.Content.Load<Texture2D>(@"Textures\TileSets\move_range");
 
-            // Loads a map and saves it for future use.
-            this.map = this.mapLoader.LoadTmxFile("Test_1.tmx", this);
-            this.map.FowEnabled = true;
-            this.map.PersistentFoW = true;
+            var tempMap = this.mapLoader.LoadTmxFile("Test_1.tmx", this);
+            tempMap.FowEnabled = true;
+            tempMap.PersistentFoW = true;
+
+            var tempPlayerUnits = new List<PlayerUnit>();
+            var tempNPCUnits = new List<NPCUnit>();
 
             // Makes an AnimatedSprite from a spritesheet, makes a PlayerUnit from it and
             // adds it to the playerUnits list.
-            var sprite = this.MakeSprite("Lin28px", 28, 28);
+            var sprite = this.MakeSprite("Ally", "Lin28px", 28, 28);
             var playerUnit = new PlayerUnit("Akai", new Vector(5, 3), sprite, new BladesmasterClass());
-            this.playerUnits.Add(playerUnit);
+            tempPlayerUnits.Add(playerUnit);
 
-            sprite = this.MakeSprite("FemaleAssassin28px", 28, 28);
-            playerUnit = new PlayerUnit("Kitai", new Vector(2, 2), sprite, new AssassinClass());
-            this.playerUnits.Add(playerUnit);
+            sprite = this.MakeSprite("Ally", "FemaleAssassin28px", 28, 28);
+            playerUnit = new PlayerUnit("Kitai", new Vector(5, 2), sprite, new AssassinClass());
+            tempPlayerUnits.Add(playerUnit);
 
-            sprite = this.MakeSprite("FlyingUnit32px", 32, 32);
-            playerUnit = new PlayerUnit("Flyer", new Vector(7, 12), sprite, new FlyingUnitClass());
-            this.playerUnits.Add(playerUnit);
+            sprite = this.MakeSprite("Ally", "FlyingUnit32px", 32, 32);
+            playerUnit = new PlayerUnit("Flyer", new Vector(9, 10), sprite, new FlyingUnitClass());
+            tempPlayerUnits.Add(playerUnit);
 
-            sprite = this.MakeSprite("FlyingUnit32px", 32, 32);
-            var npcUnit = new NPCUnit("Flyer", 10, 10, sprite, new FlyingUnitClass());
-            this.npcUnits.Add(npcUnit);
+            sprite = this.MakeSprite("Enemy", "FlyingUnit32px", 32, 32);
+            var enemyUnit = new NPCUnit("Flyer", new Vector(10, 10), sprite, new FlyingUnitClass());
+            tempNPCUnits.Add(enemyUnit);
 
-            // Calls the LoadUnits method of the map.
-            this.map.LoadUnits(new List<Unit>(this.playerUnits));
-            this.map.LoadUnits(new List<Unit>(this.npcUnits));
+            tempMap.LoadUnits(new List<Unit>(tempPlayerUnits));
+            tempMap.LoadUnits(new List<Unit>(tempNPCUnits));
 
-//            var test = Finder.CostEstimate(new Vector(7, 12), new Vector(5, 13));
-//            Console.WriteLine(test);
-
-//            var derp = Finder.FindShortestPathWithinReach(new Vector(7, 12), new Vector(5, 13), playerUnit, this.map.dataMap);
-//            Console.WriteLine();
-//            Console.Write("[");
-//            foreach (var vector in derp)
-//            {
-//                Console.Write(vector + " FScore: " + vector.FScore + ", ");
-//            }
-//            Console.WriteLine("]");
+            this.CurrentLevel = new Level(
+                this.SquaresAcross,
+                this.SquaresDown,
+                new Camera(screenRectangle),
+                tempMap,
+                tempPlayerUnits,
+                tempNPCUnits);
         }
 
         /// <summary>
@@ -274,18 +233,9 @@ namespace AgeOfDragons
                 this.Exit();
             }
 
-            this.Camera.Update(gameTime, this);
-            this.Player.Update(gameTime, this);
-
-            foreach (var playerUnit in this.PlayerUnits)
-            {
-                playerUnit.Update(gameTime);
-            }
-
-            foreach (var npcUnit in this.NPCUnits)
-            {
-                npcUnit.Update(gameTime);
-            }
+            this.Player.Update(gameTime, this.CurrentLevel);
+            this.animationControl.Update(gameTime);
+            this.CurrentLevel.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -298,13 +248,13 @@ namespace AgeOfDragons
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            this.spriteBatch.Begin();
+            SpriteBatch.Begin();
 
-            this.map.DrawMap(gameTime, this);
+            this.CurrentLevel.Draw(gameTime);
 
             base.Draw(gameTime);
 
-            this.spriteBatch.End();
+            SpriteBatch.End();
         }
 
         #region Non-XNA methods
@@ -312,13 +262,14 @@ namespace AgeOfDragons
         /// <summary>
         /// Makes a sprite from the given string.
         /// </summary>
+        /// <param name="faction"> "Ally" or "Enemy". </param>
         /// <param name="spriteSheet"> The name of the sprite sheet. </param>
         /// <param name="spriteHeight"> The height of each sprite. </param>
         /// <param name="spriteWidth"> The width of each sprite. </param>
         /// <returns>
         /// An AnimatedSprite based on the spritesheet.
         /// </returns>
-        private AnimatedSprite MakeSprite(string spriteSheet, int spriteHeight, int spriteWidth)
+        private AnimatedSprite MakeSprite(string faction, string spriteSheet, int spriteHeight, int spriteWidth)
         {
             var animations = new Dictionary<AnimationKey, Animation>();
 
@@ -341,7 +292,7 @@ namespace AgeOfDragons
             animations.Add(AnimationKey.Right, animation);
 
             var sprite = new AnimatedSprite(
-                this.Content.Load<Texture2D>(@"Textures\Sprites\" + spriteSheet),
+                this.Content.Load<Texture2D>(@"Textures\Sprites\" + faction + "\\" + spriteSheet),
                 animations);
 
             return sprite;

@@ -102,10 +102,12 @@ publish
 sql
 TestResults
 *.Cache
+*.cache
 ClientBin
-stylecop.*
 ~$*
 *.dbmdl
+*.exe
+*.pdb
 Generated_Code #added for RIA/Silverlight projects
 
 # Backup & report files from converting an old project file to a newer

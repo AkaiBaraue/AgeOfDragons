@@ -56,14 +56,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\Sprites\Lin28px.png">
+    <Compile Include="Textures\Sprites\Ally\Lin28px.png">
       <Name>Lin28px</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\Sprites\FemaleAssassin28px.png">
+    <Compile Include="Textures\Sprites\Ally\FemaleAssassin28px.png">
       <Name>FemaleAssassin28px</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -100,7 +100,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\Sprites\FlyingUnit32px.png">
+    <Compile Include="Textures\Sprites\Ally\FlyingUnit32px.png">
       <Name>FlyingUnit32px</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -109,6 +109,14 @@
   <ItemGroup>
     <Compile Include="Textures\TileSets\move_range.png">
       <Name>move_range</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Textures\Sprites\Enemy\FlyingUnit32px.png">
+      <Name>FlyingUnit32px</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

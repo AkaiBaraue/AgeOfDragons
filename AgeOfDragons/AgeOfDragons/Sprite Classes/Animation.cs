@@ -174,18 +174,29 @@ namespace AgeOfDragons.Sprite_Classes
 
         #region Method Region
 
+//        /// <summary>
+//        /// Updates the animation
+//        /// </summary>
+//        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+//        public void Update(GameTime gameTime)
+//        {
+//            this.frameTimer += gameTime.ElapsedGameTime;
+//            if (this.frameTimer >= this.frameLength)
+//            {
+//                this.frameTimer = TimeSpan.Zero;
+//                this.currentFrame = (this.currentFrame + 1) % this.frames.Length;
+//            }
+//        }
+
         /// <summary>
         /// Updates the animation
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public void Update(GameTime gameTime)
         {
-            this.frameTimer += gameTime.ElapsedGameTime;
-            if (this.frameTimer >= this.frameLength)
-            {
-                this.frameTimer = TimeSpan.Zero;
-                this.currentFrame = (this.currentFrame + 1) % this.frames.Length;
-            }
+            // Gets the current frame from the AnimationControl, which ensures that all
+            // animations are in sync.
+            this.currentFrame = AnimationControl.CurrentFrame;
         }
 
         /// <summary>

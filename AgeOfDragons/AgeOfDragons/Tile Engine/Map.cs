@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TileMap.cs" company="Baraue">
+// <copyright file="Map.cs" company="Baraue">
 //   o/
 // </copyright>
 // <summary>
@@ -14,6 +14,7 @@ namespace AgeOfDragons.Tile_Engine
     using System.Collections.Generic;
 
     using AgeOfDragons;
+    using AgeOfDragons.Components;
     using AgeOfDragons.Pathfinding;
     using AgeOfDragons.Sprite_Classes;
     using AgeOfDragons.Units;
@@ -24,7 +25,7 @@ namespace AgeOfDragons.Tile_Engine
     /// A class that takes care of creating a map of tiles, drawing
     /// the map, drawing fog of war and drawing units.
     /// </summary>
-    public class TileMap
+    public class Map
     {
         #region Field Region
 
@@ -123,11 +124,11 @@ namespace AgeOfDragons.Tile_Engine
         #region Constructor Region
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TileMap"/> class.
+        /// Initializes a new instance of the <see cref="Map"/> class.
         /// </summary>
         /// <param name="tilesets"> The tilesets to create the map from. </param>
         /// <param name="layers"> The layers to create the map from. </param>
-        public TileMap(List<Tileset> tilesets, List<MapLayer> layers)
+        public Map(List<Tileset> tilesets, List<MapLayer> layers)
         {
             this.tilesets = tilesets;
             this.mapLayers = layers;
@@ -140,7 +141,7 @@ namespace AgeOfDragons.Tile_Engine
             {
                 if (mapWidth != this.mapLayers[i].Width || mapHeight != this.mapLayers[i].Height)
                 {
-                    throw new Exception("Map layer size exception");
+                    throw new Exception("MapData layer size exception");
                 }
             }
 
@@ -149,11 +150,11 @@ namespace AgeOfDragons.Tile_Engine
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TileMap"/> class.
+        /// Initializes a new instance of the <see cref="Map"/> class.
         /// </summary>
         /// <param name="tileset"> The tileset to create the map from. </param>
         /// <param name="layer"> The layer to create the map from. </param>
-        public TileMap(Tileset tileset, MapLayer layer)
+        public Map(Tileset tileset, MapLayer layer)
         {
             this.tilesets = new List<Tileset>();
             this.tilesets.Add(tileset);
@@ -175,35 +176,35 @@ namespace AgeOfDragons.Tile_Engine
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        /// <param name="game"> A snapshot of the game. </param>
-        public void DrawMap(GameTime gameTime, Game1 game)
+        /// <param name="level"> The level in progress. </param>
+        public void DrawMap(GameTime gameTime, Level level)
         {
-            this.DrawTiles(game);
-            this.DrawUnits(gameTime, game);
+            this.DrawTiles(level);
+            this.DrawUnits(gameTime, level);
 
             if (this.FowEnabled)
             {
-                this.DrawFoW(game);
+                this.DrawFoW(level);
             }
         }
 
         /// <summary>
         /// Draws the tiles on the DataMap.
         /// </summary>
-        /// <param name="game"> A snapshot of the game. </param>
-        private void DrawTiles(Game1 game)
+        /// <param name="level"> The level in progress. </param>
+        private void DrawTiles(Level level)
         {
             // Finds the square that is to the top-left.
             var firstSquare = new Vector2(
-                game.Camera.Position.X / Engine.TileWidth,
-                game.Camera.Position.Y / Engine.TileHeight);
+                level.Camera.Position.X / Engine.TileWidth,
+                level.Camera.Position.Y / Engine.TileHeight);
             var firstX = (int)firstSquare.X;
             var firstY = (int)firstSquare.Y;
 
             // Figured out what how far the tiles have been offset.
             var squareOffset = new Vector2(
-                game.Camera.Position.X % Engine.TileWidth,
-                game.Camera.Position.Y % Engine.TileHeight);
+                level.Camera.Position.X % Engine.TileWidth,
+                level.Camera.Position.Y % Engine.TileHeight);
             var offsetX = (int)squareOffset.X;
             var offsetY = (int)squareOffset.Y;
 
@@ -218,9 +219,9 @@ namespace AgeOfDragons.Tile_Engine
 
                 // Iterates over all tiles that are to be drawn on the screen. Ignores all tiles that are
                 // outside the bounds of the scrren.
-                for (int y = 0; y <= game.Camera.ViewportRectangle.Width / Engine.TileWidth; y++)
+                for (int y = 0; y <= level.Camera.ViewportRectangle.Width / Engine.TileWidth; y++)
                 {
-                    for (int x = 0; x <= game.Camera.ViewportRectangle.Height / Engine.TileHeight; x++)
+                    for (int x = 0; x <= level.Camera.ViewportRectangle.Height / Engine.TileHeight; x++)
                     {
                         // Finds the actual tile
                         int currentX = x + firstX < mapLayer.Width ? x + firstX : mapLayer.Width - 1;
@@ -235,7 +236,7 @@ namespace AgeOfDragons.Tile_Engine
                         }
 
                         // Draws the tile.
-                        game.SpriteBatch.Draw(
+                        Game1.SpriteBatch.Draw(
                             this.tilesets[tile.TileSet].Texture,
                             new Rectangle(
                                 (x * Engine.TileWidth) - offsetX,
@@ -257,12 +258,12 @@ namespace AgeOfDragons.Tile_Engine
                     // Converts the vector to a vector that represents the position on 
                     // the screen.
                     var vect = new Vector2(
-                        (vector2.Y * Engine.TileWidth) - game.Camera.Position.X,
-                        (vector2.X * Engine.TileHeight) - game.Camera.Position.Y);
+                        (vector2.Y * Engine.TileWidth) - level.Camera.Position.X,
+                        (vector2.X * Engine.TileHeight) - level.Camera.Position.Y);
 
                     // Draws the location with a semi-transparent blue square, indicating that
                     // the currently selected unit can walk to those tiles.
-                    game.SpriteBatch.Draw(
+                    Game1.SpriteBatch.Draw(
                         Engine.ValidMoveTexture,
                         vect,
                         Color.White);
@@ -273,28 +274,28 @@ namespace AgeOfDragons.Tile_Engine
         /// <summary>
         /// Draws the Fog of War on the map.
         /// </summary>
-        /// <param name="game"> A snapshot of the game. </param>
-        private void DrawFoW(Game1 game)
+        /// <param name="level"> The level in progress. </param>
+        private void DrawFoW(Level level)
         {
             // Finds the square that is to the top-left.
             var firstSquare = new Vector2(
-                game.Camera.Position.X / Engine.TileWidth,
-                game.Camera.Position.Y / Engine.TileHeight);
+                level.Camera.Position.X / Engine.TileWidth,
+                level.Camera.Position.Y / Engine.TileHeight);
             var firstX = (int)firstSquare.X;
             var firstY = (int)firstSquare.Y;
 
             // Figured out what how far the tiles have been offset.
             var squareOffset = new Vector2(
-                game.Camera.Position.X % Engine.TileWidth,
-                game.Camera.Position.Y % Engine.TileHeight);
+                level.Camera.Position.X % Engine.TileWidth,
+                level.Camera.Position.Y % Engine.TileHeight);
             var offsetX = (int)squareOffset.X;
             var offsetY = (int)squareOffset.Y;
 
             // Iterates over all tiles that are to be drawn on the screen. Ignores all tiles that are
             // outside the bounds of the scrren.
-            for (int y = 0; y <= game.Camera.ViewportRectangle.Width / Engine.TileWidth; y++)
+            for (int y = 0; y <= level.Camera.ViewportRectangle.Width / Engine.TileWidth; y++)
             {
-                for (int x = 0; x <= game.Camera.ViewportRectangle.Height / Engine.TileHeight; x++)
+                for (int x = 0; x <= level.Camera.ViewportRectangle.Height / Engine.TileHeight; x++)
                 {
                     // Finds the actual location
                     int currentX = x + firstX < this.MapWidth ? x + firstX : this.MapWidth - 1;
@@ -304,7 +305,7 @@ namespace AgeOfDragons.Tile_Engine
                     if (!this.IsVisible(currentY, currentX))
                     {
                         // ...draw the Fog of War texture on it.
-                        game.SpriteBatch.Draw(
+                        Game1.SpriteBatch.Draw(
                             Engine.FoWTexture,
                             new Rectangle(
                                 (x * Engine.TileWidth) - offsetX,
@@ -321,11 +322,11 @@ namespace AgeOfDragons.Tile_Engine
         /// Draws the units on the DataMap.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        /// <param name="game"> A snapshot of the game. </param>
-        private void DrawUnits(GameTime gameTime, Game1 game)
+        /// <param name="level"> The level in progress. </param>
+        private void DrawUnits(GameTime gameTime, Level level)
         {
             // Iterates over all PlayerUnits and draws them on the map.
-            foreach (var playerUnit in game.PlayerUnits)
+            foreach (var playerUnit in level.LevelPlayerUnits)
             {
                 var unitOffsetX = (Engine.TileHeight / 2)
                               - (playerUnit.Sprite.Height / 2);
@@ -335,18 +336,18 @@ namespace AgeOfDragons.Tile_Engine
                 // Converts the position of the unit to a vector that represents a
                 // location on the gamescreen.
                 var vect = new Vector2(
-                    (playerUnit.Sprite.Position.Y * Engine.TileHeight) - game.Camera.Position.X + unitOffsetY,
-                    (playerUnit.Sprite.Position.X * Engine.TileWidth) - game.Camera.Position.Y + unitOffsetX);
+                    (playerUnit.Sprite.Position.Y * Engine.TileHeight) - level.Camera.Position.X + unitOffsetY,
+                    (playerUnit.Sprite.Position.X * Engine.TileWidth) - level.Camera.Position.Y + unitOffsetX);
 
                 // Draws the unit.
                 playerUnit.Draw(
                     gameTime, 
-                    game.SpriteBatch, 
+                    Game1.SpriteBatch, 
                     vect);
             }
 
-            // Iterates over all NPCUnits and draws them on the map.
-            foreach (var npcUnit in game.NPCUnits)
+            // Iterates over all enemyUnits and draws them on the map.
+            foreach (var npcUnit in level.LevelNPCUnits)
             {
                 // Draws the NPC is Fog of War is not enabled.
                 if (!this.FowEnabled)
@@ -359,13 +360,13 @@ namespace AgeOfDragons.Tile_Engine
                     // Converts the position of the unit to a vector that represents a
                     // location on the gamescreen.
                     var vect = new Vector2(
-                    (npcUnit.Sprite.Position.Y * Engine.TileHeight) - game.Camera.Position.X + unitOffsetY,
-                    (npcUnit.Sprite.Position.X * Engine.TileWidth) - game.Camera.Position.Y + unitOffsetX);
+                    (npcUnit.Sprite.Position.Y * Engine.TileHeight) - level.Camera.Position.X + unitOffsetY,
+                    (npcUnit.Sprite.Position.X * Engine.TileWidth) - level.Camera.Position.Y + unitOffsetX);
 
                     // Draws the unit.
                     npcUnit.Draw(
                         gameTime,
-                        game.SpriteBatch,
+                        Game1.SpriteBatch,
                         vect);
 
                     continue;
@@ -382,13 +383,13 @@ namespace AgeOfDragons.Tile_Engine
                     // Converts the position of the unit to a vector that represents a
                     // location on the gamescreen.
                     var vect = new Vector2(
-                    (npcUnit.Sprite.Position.Y * Engine.TileHeight) - game.Camera.Position.X + unitOffsetY,
-                    (npcUnit.Sprite.Position.X * Engine.TileWidth) - game.Camera.Position.Y + unitOffsetX);
+                    (npcUnit.Sprite.Position.Y * Engine.TileHeight) - level.Camera.Position.X + unitOffsetY,
+                    (npcUnit.Sprite.Position.X * Engine.TileWidth) - level.Camera.Position.Y + unitOffsetX);
 
                     // Draws the unit.
                     npcUnit.Draw(
                         gameTime, 
-                        game.SpriteBatch, 
+                        Game1.SpriteBatch, 
                         vect);
                 }
             }
@@ -476,8 +477,9 @@ namespace AgeOfDragons.Tile_Engine
 
                 if (unit is PlayerUnit)
                 {
-                    this.SetVisibility(unit.Location.X, unit.Location.Y, true);
+                    Console.WriteLine("Found player unit!");
                     this.RemoveFoW(unit);
+                    this.SetVisibility(unit.Location.X, unit.Location.Y, true);
                 }
             }
         }
@@ -486,8 +488,8 @@ namespace AgeOfDragons.Tile_Engine
         /// Calls the methods that are needed for when a unit is moved away.
         /// </summary>
         /// <param name="unit"> The unit that is moving. </param>
-        /// <param name="game"> A snapshot of the game. </param>
-        public void MoveUnitAway(Unit unit, Game1 game)
+        /// <param name="level"> The level in progress. </param>
+        public void MoveUnitAway(Unit unit, Level level)
         {
             this.SetOccupationStatus(unit.Location.X, unit.Location.Y, false);
 
@@ -495,7 +497,7 @@ namespace AgeOfDragons.Tile_Engine
             {
                 if (unit is PlayerUnit)
                 {
-                    this.AddFoW(unit, game);
+                    this.AddFoW(unit, level);
                 }
             }
         }
@@ -522,8 +524,8 @@ namespace AgeOfDragons.Tile_Engine
         /// Mainly used when a uint is moved.
         /// </summary>
         /// <param name="unit"> The unit to add FoW around. </param>
-        /// <param name="game"> A snapshot of the game. </param>
-        private void AddFoW(Unit unit, Game1 game)
+        /// <param name="level"> The level in progress. </param>
+        private void AddFoW(Unit unit, Level level)
         {
             if (this.FowEnabled)
             {
@@ -538,7 +540,7 @@ namespace AgeOfDragons.Tile_Engine
                     }
                 }
 
-                foreach (var playerUnit in game.PlayerUnits)
+                foreach (var playerUnit in level.LevelPlayerUnits)
                 {
                     playerUnit.HasProcessedFoW = false;
                     this.RemoveFoW(playerUnit);
@@ -579,7 +581,17 @@ namespace AgeOfDragons.Tile_Engine
             this.validMovesList = PathFinding.MarkValidMoves(unit, this.dataMap);
         }
 
-        public List<Vector> ShortestPath(Vector target, Unit unit)
+        /// <summary>
+        /// Finds the shortest path for the unit from the unit's position
+        /// to the target vector.
+        /// </summary>
+        /// <param name="unit"> The unit. </param>
+        /// <param name="target"> The target position. </param>
+        /// <returns>
+        /// A list containing the Vectors that make up the shortest path from
+        /// the unit's position to the vector.
+        /// </returns>
+        public List<Vector> FindShortestPathWithinReach(Unit unit, Vector target)
         {
             var start = new Vector(unit.Location.X, unit.Location.Y);
             return PathFinding.FindShortestPathWithinReach(start, target, unit, this.dataMap);
@@ -594,7 +606,7 @@ namespace AgeOfDragons.Tile_Engine
         {
             if (layer.Width != mapWidth && layer.Height != mapHeight)
             {
-                throw new Exception("Map layer size exception");
+                throw new Exception("MapData layer size exception");
             }
 
             this.mapLayers.Add(layer);

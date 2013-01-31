@@ -238,8 +238,7 @@ namespace AgeOfDragons.Units
         public void Select()
         {
             this.selected = true;
-            this.Sprite.CurrentAnimation = AnimationKey.Selected;
-            this.Sprite.ResetAnimation();
+            this.Sprite.SwitchAnimationTo(AnimationKey.Selected);
         }
 
         /// <summary>
@@ -249,8 +248,7 @@ namespace AgeOfDragons.Units
         public void Deselect()
         {
             this.selected = false;
-            this.Sprite.CurrentAnimation = AnimationKey.Idle;
-            this.Sprite.ResetAnimation();
+            this.Sprite.SwitchAnimationTo(AnimationKey.Idle);
         }
 
         /// <summary>

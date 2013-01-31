@@ -51,8 +51,8 @@ namespace AgeOfDragons.Tile_Engine
         /// <summary>
         /// Initializes a new instance of the <see cref="MapData"/> class.
         /// </summary>
-        /// <param name="height"> The height of the MapData. </param>
-        /// <param name="width"> The width of the MapData. </param>
+        /// <param name="height"> The height of the map. </param>
+        /// <param name="width"> The width of the map. </param>
         public MapData(int height, int width)
         {
             this.height = height;

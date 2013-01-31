@@ -10,6 +10,7 @@
 namespace AgeOfDragons.Tile_Engine
 {
     using AgeOfDragons;
+    using AgeOfDragons.Components;
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Input;
@@ -98,35 +99,35 @@ namespace AgeOfDragons.Tile_Engine
         /// Updates the camera by responding to user input.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        /// <param name="gameRef">The game that the camera has been made for.</param>
-        public void Update(GameTime gameTime, Game1 gameRef)
+        /// <param name="level"> The level in progress. </param>
+        public void Update(GameTime gameTime, Level level)
         {
             // Moves the camera to the left, but makes sure it does nto leave the screen.
             if (InputHandler.KeyDown(Keys.Left))
             {
                 this.position.X = MathHelper.Clamp(
-                    this.Position.X - this.speed, 0, (gameRef.Map.MapWidth - gameRef.SquaresDown) * Engine.TileWidth);
+                    this.Position.X - this.speed, 0, (level.LevelMap.MapWidth - level.LevelWidth) * Engine.TileWidth);
             }
 
             // Moves the camera to the right, but makes sure it does nto leave the screen.
             if (InputHandler.KeyDown(Keys.Right))
             {
                 this.position.X = MathHelper.Clamp(
-                    this.Position.X + this.speed, 0, (gameRef.Map.MapWidth - gameRef.SquaresDown) * Engine.TileWidth);
+                    this.Position.X + this.speed, 0, (level.LevelMap.MapWidth - level.LevelWidth) * Engine.TileWidth);
             }
 
             // Moves the camera up, but makes sure it does nto leave the screen.
             if (InputHandler.KeyDown(Keys.Up))
             {
                 this.position.Y = MathHelper.Clamp(
-                    this.Position.Y - this.speed, 0, (gameRef.Map.MapHeight - gameRef.SquaresAcross) * Engine.TileHeight);
+                    this.Position.Y - this.speed, 0, (level.LevelMap.MapHeight - level.LevelHeight) * Engine.TileHeight);
             }
 
             // Moves the camera down, but makes sure it does nto leave the screen.
             if (InputHandler.KeyDown(Keys.Down))
             {
                 this.position.Y = MathHelper.Clamp(
-                    this.Position.Y + this.speed, 0, (gameRef.Map.MapHeight - gameRef.SquaresAcross) * Engine.TileHeight);
+                    this.Position.Y + this.speed, 0, (level.LevelMap.MapHeight - level.LevelHeight) * Engine.TileHeight);
             }
         }
 

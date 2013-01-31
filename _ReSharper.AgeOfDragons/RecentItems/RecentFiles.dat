@@ -1,62 +1,63 @@
 ﻿<RecentFiles>
   <RecentFiles>
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:CollisionType.cs" caret="0" fromTop="0" />
     <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Helper Classes/f:Directories.cs" caret="0" fromTop="0" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimatedSprite.cs" caret="3268" fromTop="15" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:Animation.cs" caret="6150" fromTop="15" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimationKey.cs" caret="0" fromTop="0" />
     <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:BaseSprite.cs" caret="0" fromTop="0" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:Camera.cs" caret="0" fromTop="0" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:Engine.cs" caret="0" fromTop="0" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:MapCell.cs" caret="0" fromTop="0" />
     <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:MapLayer.cs" caret="0" fromTop="0" />
     <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:Tile.cs" caret="0" fromTop="0" />
     <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:Tileset.cs" caret="0" fromTop="0" />
     <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/f:InputHandler.cs" caret="0" fromTop="0" />
     <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Pathfinding/f:VectorNode.cs" caret="748" fromTop="1" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Pathfinding/f:Vector.cs" caret="1477" fromTop="12" />
     <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Units/f:PlayerUnit.cs" caret="1785" fromTop="4" />
     <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Units/f:NPCUnit.cs" caret="1405" fromTop="19" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Helper Classes/f:PriorityQueue.cs" caret="2672" fromTop="12" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Helper Classes/f:XMLParser.cs" caret="6090" fromTop="8" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/f:Game1.cs" caret="7300" fromTop="9" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Pathfinding/f:Vector.cs" caret="3774" fromTop="4" />
     <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Pathfinding/f:PathFinding.cs" caret="1609" fromTop="24" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:MapData.cs" caret="6819" fromTop="19" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:TileMap.cs" caret="22414" fromTop="21" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Components/f:Player.cs" caret="4591" fromTop="14" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Units/f:Unit.cs" caret="9515" fromTop="15" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Helper Classes/f:PriorityQueue.cs" caret="2672" fromTop="12" />
     <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Helper Classes/f:MapLoader.cs" caret="4576" fromTop="16" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Helper Classes/f:XMLParser.cs" caret="6090" fromTop="8" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:Engine.cs" caret="595" fromTop="4" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:CollisionType.cs" caret="0" fromTop="0" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:Camera.cs" caret="3144" fromTop="14" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:MapData.cs" caret="3936" fromTop="14" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:TileMap.cs" caret="0" fromTop="0" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimatedSprite.cs" caret="5332" fromTop="0" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimationKey.cs" caret="657" fromTop="0" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Units/f:Unit.cs" caret="7495" fromTop="14" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimationControl.cs" caret="2094" fromTop="50" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:Animation.cs" caret="1234" fromTop="14" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Components/f:Player.cs" caret="5947" fromTop="131" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/f:Game1.cs" caret="8892" fromTop="12" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:MapCell.cs" caret="1575" fromTop="23" />
   </RecentFiles>
   <RecentEdits>
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:TileMap.cs" caret="4408" fromTop="22" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:TileMap.cs" caret="5028" fromTop="17" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:TileMap.cs" caret="5202" fromTop="22" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:TileMap.cs" caret="4831" fromTop="11" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:TileMap.cs" caret="22172" fromTop="15" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:MapData.cs" caret="1661" fromTop="15" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:MapData.cs" caret="1799" fromTop="20" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:MapData.cs" caret="1233" fromTop="8" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:MapData.cs" caret="9418" fromTop="13" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/f:Game1.cs" caret="4197" fromTop="8" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/f:Game1.cs" caret="3969" fromTop="17" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:TileMap.cs" caret="22438" fromTop="21" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Pathfinding/f:PathFinding.cs" caret="3267" fromTop="15" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Components/f:Player.cs" caret="5646" fromTop="23" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Helper Classes/f:MapLoader.cs" caret="4576" fromTop="16" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Helper Classes/f:XMLParser.cs" caret="6075" fromTop="16" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Components/f:Player.cs" caret="4591" fromTop="14" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/f:Game1.cs" caret="7300" fromTop="9" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Pathfinding/f:PathFinding.cs" caret="2339" fromTop="20" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Units/f:Unit.cs" caret="9768" fromTop="22" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Units/f:Unit.cs" caret="9538" fromTop="23" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:MapData.cs" caret="6596" fromTop="18" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:MapData.cs" caret="6101" fromTop="6" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Units/f:Unit.cs" caret="9515" fromTop="15" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Pathfinding/f:PathFinding.cs" caret="1653" fromTop="12" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Pathfinding/f:PathFinding.cs" caret="1974" fromTop="22" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Pathfinding/f:PathFinding.cs" caret="1447" fromTop="7" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Pathfinding/f:PathFinding.cs" caret="1340" fromTop="6" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:MapData.cs" caret="8448" fromTop="14" />
-    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Tile Engine/f:MapData.cs" caret="6691" fromTop="16" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Components/f:Player.cs" caret="475" fromTop="11" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimatedSprite.cs" caret="2703" fromTop="17" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/f:Game1.cs" caret="9982" fromTop="16" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimatedSprite.cs" caret="2407" fromTop="1" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Units/f:Unit.cs" caret="7947" fromTop="18" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Units/f:Unit.cs" caret="7616" fromTop="7" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimatedSprite.cs" caret="5763" fromTop="21" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimatedSprite.cs" caret="5801" fromTop="22" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/f:Game1.cs" caret="1980" fromTop="17" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimationControl.cs" caret="650" fromTop="16" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimationControl.cs" caret="499" fromTop="7" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimationControl.cs" caret="282" fromTop="6" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimationControl.cs" caret="188" fromTop="2" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimationKey.cs" caret="657" fromTop="17" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimatedSprite.cs" caret="1373" fromTop="13" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimatedSprite.cs" caret="1599" fromTop="19" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimatedSprite.cs" caret="4942" fromTop="11" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimatedSprite.cs" caret="5332" fromTop="21" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Components/f:Player.cs" caret="3205" fromTop="19" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Components/f:Player.cs" caret="3407" fromTop="24" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Components/f:Player.cs" caret="5947" fromTop="11" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimationControl.cs" caret="913" fromTop="15" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimationControl.cs" caret="1086" fromTop="20" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimationControl.cs" caret="1270" fromTop="25" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimationControl.cs" caret="1771" fromTop="23" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimationControl.cs" caret="1731" fromTop="18" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/f:Game1.cs" caret="454" fromTop="11" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:AnimationControl.cs" caret="2094" fromTop="11" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/d:Sprite Classes/f:Animation.cs" caret="5991" fromTop="17" />
+    <File id="F384F2E2-9542-4F32-86E5-2802AAAF3181/f:Game1.cs" caret="8892" fromTop="12" />
   </RecentEdits>
 </RecentFiles>

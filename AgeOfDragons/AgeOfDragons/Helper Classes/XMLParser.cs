@@ -65,7 +65,7 @@ namespace AgeOfDragons.Helper_Classes
         /// <returns>
         /// A TileMap based on the .tmx map.
         /// </returns>
-        public TileMap LoadTmxMap(string mapName, Game1 game)
+        public Map LoadTmxMap(string mapName, Game1 game)
         {
             // Finds the path to the map.
             var filename = Path.Combine(Directories.GetMapDirection(), mapName);
@@ -141,7 +141,7 @@ namespace AgeOfDragons.Helper_Classes
             }
 
             // Creates and returns a TileMap based on the list of tilesets and maplayers.
-            return new TileMap(this.tilesetList, this.layerList);
+            return new Map(this.tilesetList, this.layerList);
         }
 
         /// <summary>

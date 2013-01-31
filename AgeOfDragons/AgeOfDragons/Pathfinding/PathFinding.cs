@@ -9,7 +9,6 @@
 
 namespace AgeOfDragons.Pathfinding
 {
-    using System;
     using System.Collections.Generic;
 
     using AgeOfDragons.Helper_Classes;
@@ -35,15 +34,12 @@ namespace AgeOfDragons.Pathfinding
         /// Finds the areas the unit can move to.
         /// </summary>
         /// <param name="unit"> The unit.  </param>
-        /// <param name="dataMap"> The datamap.  </param>
+        /// <param name="dataMapData"> The datamap.  </param>
         /// <returns>
         /// The list of vectors.
         /// </returns>
-        public static List<Vector> MarkValidMoves(Unit unit, MapData dataMap)
+        public static List<Vector> MarkValidMoves(Unit unit, MapData dataMapData)
         {
-            var x = unit.Location.X;
-            var y = unit.Location.Y;
-
             var startVector = new Vector(unit.Location.X, unit.Location.Y);
 
             var validMovesList = new List<Vector>();
@@ -67,7 +63,7 @@ namespace AgeOfDragons.Pathfinding
                         continue;
                     }
 
-                    if (dataMap.WithinMapMoveRangeAndCanTraverse(tempVector.X, tempVector.Y, unit))
+                    if (dataMapData.WithinMapMoveRangeAndCanTraverse(tempVector.X, tempVector.Y, unit))
                     {
                         validMoves.AddLast(tempVector);
                         validMovesList.Add(tempVector);
@@ -81,6 +77,7 @@ namespace AgeOfDragons.Pathfinding
         /// <summary>
         /// Finds the shortest path between the start vector and the goal vector,
         /// taking into account whether the unit can actually get there or not.
+        /// A* pathfinding.
         /// </summary>
         /// <param name="start"> The vector to start the search from. </param>
         /// <param name="goal"> The vector to end the search at. </param>
@@ -127,8 +124,9 @@ namespace AgeOfDragons.Pathfinding
                         continue;
                     }
 
-                    if (!openList.Contains(neighbor) &&
-                        dataMap.WithinMapAndCanTraverse(neighbor.X, neighbor.Y, unit))
+                    if (!openList.Contains(neighbor) 
+                        && dataMap.WithinMapAndCanTraverse(neighbor.X, neighbor.Y, unit) 
+                        && CostEstimate(unit.Location, neighbor) <= unit.MoveRange)
                     {
                             neighbor.CameFrom = current;
                             neighbor.GScore = current.GScore + 1;

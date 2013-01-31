@@ -9,10 +9,12 @@
 
 namespace AgeOfDragons.Pathfinding
 {
+    using System;
+
     /// <summary>
     /// Represents a vector.
     /// </summary>
-    public class Vector
+    public class Vector : ICloneable
     {
         #region Field Region
 
@@ -128,6 +130,24 @@ namespace AgeOfDragons.Pathfinding
         public override string ToString()
         {
             return "(" + this.X + ", " + this.Y + ")";
+        }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public object Clone()
+        {
+            var tempVector = new Vector(this.X, this.Y)
+                {
+                    GScore = this.GScore, 
+                    FScore = this.FScore, 
+                    CameFrom = this.CameFrom
+                };
+
+            return tempVector;
         }
 
         #endregion

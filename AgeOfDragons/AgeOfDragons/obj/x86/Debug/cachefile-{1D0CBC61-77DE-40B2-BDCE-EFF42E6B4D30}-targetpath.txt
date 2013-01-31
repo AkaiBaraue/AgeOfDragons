@@ -1,8 +1,9 @@
 Content\Textures\TileSets\part2_tileset.xnb
 Content\Textures\TileSets\fow_of_war.xnb
-Content\Textures\Sprites\FemaleAssassin28px.xnb
-Content\Textures\Sprites\Lin28px.xnb
 Content\Textures\TileSets\test_tileset.xnb
 Content\Textures\TileSets\collision.xnb
-Content\Textures\Sprites\FlyingUnit32px.xnb
 Content\Textures\TileSets\move_range.xnb
+Content\Textures\Sprites\Ally\Lin28px.xnb
+Content\Textures\Sprites\Ally\FemaleAssassin28px.xnb
+Content\Textures\Sprites\Ally\FlyingUnit32px.xnb
+Content\Textures\Sprites\Enemy\FlyingUnit32px.xnb

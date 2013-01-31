@@ -15,6 +15,11 @@ namespace AgeOfDragons.Sprite_Classes
     public enum AnimationKey
     {
         /// <summary>
+        /// Represents no animation.
+        /// </summary>
+        None,
+
+        /// <summary>
         /// Represents the character going down.
         /// </summary>
         Down,
