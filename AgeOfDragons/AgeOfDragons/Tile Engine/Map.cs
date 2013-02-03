@@ -582,6 +582,14 @@ namespace AgeOfDragons.Tile_Engine
         }
 
         /// <summary>
+        /// Clears the list of valid moves.
+        /// </summary>
+        public void ClearValidMoves()
+        {
+            this.validMovesList = null;
+        }
+
+        /// <summary>
         /// Finds the shortest path for the unit from the unit's position
         /// to the target vector.
         /// </summary>

@@ -77,6 +77,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fonts\OwnFont.spritefont">
+      <Name>OwnFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
     <None Include="Maps\test2.tmx">
       <Name>test2</Name>
     </None>

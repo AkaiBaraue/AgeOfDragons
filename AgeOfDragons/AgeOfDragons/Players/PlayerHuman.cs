@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="HumanPlayer.cs" company="Baraue">
+// <copyright file="PlayerHuman.cs" company="Baraue">
 //   o/
 // </copyright>
 // <summary>
@@ -7,18 +7,20 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AgeOfDragons.Components
+namespace AgeOfDragons.Players
 {
+    using AgeOfDragons.Components;
     using AgeOfDragons.Pathfinding;
     using AgeOfDragons.Tile_Engine;
     using AgeOfDragons.Units;
 
     using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Input;
 
     /// <summary>
-    /// A class that represents the player in the game
+    /// A class that represents the human player in the game.
     /// </summary>
-    public class HumanPlayer : Player
+    public class PlayerHuman : Player
     {
         #region Field Region
 
@@ -46,11 +48,54 @@ namespace AgeOfDragons.Components
         #region Constructor Region
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HumanPlayer"/> class.
+        /// Initializes a new instance of the <see cref="PlayerHuman"/> class.
         /// </summary>
-        public HumanPlayer()
+        public PlayerHuman()
         {
             this.unitSelected = false;
+        }
+
+        #endregion
+
+        #region Virtual Method Region
+
+        /// <summary>
+        /// Updates the player.
+        /// </summary>
+        /// <param name="gameTime"> Provides a snapshot of timing values. </param>
+        /// <param name="level"> The level in progress. </param>
+        public override void Update(GameTime gameTime, Level level)
+        {
+            if (!this.IsCurrentPlayer)
+            {
+                return;
+            }
+
+            this.justClicked = false;
+
+            this.SelectUnit(level);
+            this.DeselectUnit(level);
+            this.MoveUnit(level);
+            this.EndPlayersTurn();
+        }
+
+        /// <summary>
+        /// The method that takes care of stuff that needs to happen at the
+        /// start of a player's turn.
+        /// </summary>
+        public override void StartTurn()
+        {
+            this.IsTurnFinished = false;
+            this.IsCurrentPlayer = true;
+        }
+
+        /// <summary>
+        /// The method that takes care of stuff that needs to happen when
+        /// the player's turn ends.
+        /// </summary>
+        public override void EndTurn()
+        {
+            this.IsCurrentPlayer = false;
         }
 
         #endregion
@@ -58,17 +103,15 @@ namespace AgeOfDragons.Components
         #region Method Region
 
         /// <summary>
-        /// Updates the player.
+        /// Checks if a unit belonging to the player is at the clicked location
+        /// and selects it if there is.
         /// </summary>
-        /// <param name="gameTime"> The game time. </param>
-        /// <param name="level"> The level in progress. </param>
-        public void Update(GameTime gameTime, Level level)
+        /// <param name="level"> The level. </param>
+        private void SelectUnit(Level level)
         {
-            this.justClicked = false;
-
-            if (InputHandler.LeftMouseClicked() &&
-                !this.unitSelected &&
-                !this.justClicked)
+            if (InputHandler.LeftMouseClicked()
+                && !this.unitSelected
+                && !this.justClicked)
             {
                 // Note! MouseState.X is the horizontal position and MouseState.Y is the vertical position.
                 // I want Y to be the horizontal coordinate (the width) and X to be the vertical coordinate
@@ -79,8 +122,7 @@ namespace AgeOfDragons.Components
                 foreach (var playerUnit in level.LevelPlayerUnits)
                 {
                     // Checks if the unit matches the tile that was clicked.
-                    if (playerUnit.Location.X == tileX &&
-                        playerUnit.Location.Y == tileY)
+                    if (playerUnit.Location.X == tileX && playerUnit.Location.Y == tileY)
                     {
                         // Selects the unit and thereby changes the animation of the unit.
                         playerUnit.Select();
@@ -95,10 +137,39 @@ namespace AgeOfDragons.Components
                 // Ensures that other parts in the update method won't be triggered.
                 this.justClicked = true;
             }
+        }
 
-            if (InputHandler.LeftMouseClicked() && 
-                this.unitSelected &&
-                !this.justClicked)
+        /// <summary>
+        /// Deselects the currently selected unit.
+        /// </summary>
+        /// <param name="level"> The level. </param>
+        private void DeselectUnit(Level level)
+        {
+            if (InputHandler.RightMouseClicked()
+                && this.unitSelected
+                && !this.justClicked)
+            {
+                level.LevelMap.ClearValidMoves();
+                this.selectedUnit.Deselect();
+
+                this.unitSelected = false;
+                this.selectedUnit = null;
+
+                // Ensures that other parts in the update method won't be triggered.
+                this.justClicked = true;
+            }
+        }
+
+        /// <summary>
+        /// Moves the selected unit to the clicked location, assuming the location
+        /// is within range of the unit.
+        /// </summary>
+        /// <param name="level"> The level. </param>
+        private void MoveUnit(Level level)
+        {
+            if (InputHandler.LeftMouseClicked()
+                && this.unitSelected
+                && !this.justClicked)
             {
                 // Note! MouseState.X is the horizontal position and MouseState.Y is the vertical position.
                 // I want Y to be the horizontal coordinate (the width) and X to be the vertical coordinate
@@ -109,13 +180,12 @@ namespace AgeOfDragons.Components
                 var tempVector = new Vector(tileX, tileY);
 
                 // Checks if the chosen tile is occupied or not.
-                if (!level.LevelMap.IsOccupied(tileX, tileY) &&
-                    this.selectedUnit.CanTraverse(level.LevelMap.GetCollisionType(tileX, tileY)) &&
-                    this.selectedUnit.PointWithinMoveRange(tempVector))
+                if (!level.LevelMap.IsOccupied(tileX, tileY)
+                    && this.selectedUnit.CanTraverse(level.LevelMap.GetCollisionType(tileX, tileY))
+                    && this.selectedUnit.PointWithinMoveRange(tempVector))
                 {
                     var pathToTarget = level.LevelMap.FindShortestPathWithinReach(this.selectedUnit, tempVector).Count;
-                    if (pathToTarget != 0 &&
-                        pathToTarget <= this.selectedUnit.MoveRange)
+                    if (pathToTarget != 0 && pathToTarget <= this.selectedUnit.MoveRange)
                     {
                         // Removes the unit from the list, as we need to change the
                         // position of the unit.
@@ -144,23 +214,18 @@ namespace AgeOfDragons.Components
             }
         }
 
-        #endregion
-
-        #region Virtual Method Region
-
-        public override void StartTurn()
+        /// <summary>
+        /// Ends the player's turn
+        /// </summary>
+        private void EndPlayersTurn()
         {
-            throw new System.NotImplementedException();
-        }
+            if (InputHandler.KeyPressed(Keys.G))
+            {
+                this.IsTurnFinished = true;
 
-        public override void TakeTurn()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void EndTurn()
-        {
-            throw new System.NotImplementedException();
+                // Ensures that other parts in the update method won't be triggered.
+                this.justClicked = true;
+            }
         }
 
         #endregion

@@ -14,12 +14,14 @@ namespace AgeOfDragons
     using AgeOfDragons.Components;
     using AgeOfDragons.Helper_Classes;
     using AgeOfDragons.Pathfinding;
+    using AgeOfDragons.Players;
     using AgeOfDragons.Sprite_Classes;
     using AgeOfDragons.Tile_Engine;
     using AgeOfDragons.Units;
     using AgeOfDragons.Units.Unit_Types;
 
     using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
 
@@ -29,11 +31,6 @@ namespace AgeOfDragons
     public class Game1 : Game
     {
         #region Fields
-
-        /// <summary>
-        /// The player that controls the game.
-        /// </summary>
-        private readonly HumanPlayer player;
 
         /// <summary>
         /// The object used for loading maps from files.
@@ -83,20 +80,17 @@ namespace AgeOfDragons
         }
 
         /// <summary>
-        /// Gets the camera.
-        /// </summary>
-        public HumanPlayer Player
-        {
-            get { return this.player; }
-        }
-
-        /// <summary>
         /// Gets the sprite batch.
         /// </summary>
         public static SpriteBatch SpriteBatch
         {
             get { return spriteBatch; }
         }
+
+        /// <summary>
+        /// Gets or sets the font used for text.
+        /// </summary>
+        public static SpriteFont Font { get; set; }
 
         #endregion
 
@@ -116,7 +110,7 @@ namespace AgeOfDragons
                 };
 
             // Initializes player and mapLoader
-            this.player = new HumanPlayer(null);
+//            this.player = new PlayerHuman();
             this.mapLoader = new MapLoader();
 
             // Adds the InputHandler to the components collection, allowing it to
@@ -157,6 +151,8 @@ namespace AgeOfDragons
             Engine.FoWTexture = this.Content.Load<Texture2D>(@"Textures\TileSets\fow_of_war");
             Engine.ValidMoveTexture = this.Content.Load<Texture2D>(@"Textures\TileSets\move_range");
 
+            Font = this.Content.Load<SpriteFont>(@"Fonts\OwnFont");
+
             var tempMap = this.mapLoader.LoadTmxFile("Test_1.tmx", this);
             tempMap.FowEnabled = true;
             tempMap.PersistentFoW = true;
@@ -190,6 +186,8 @@ namespace AgeOfDragons
                 tempMap,
                 tempPlayerUnits,
                 tempNPCUnits);
+            this.CurrentLevel.AddPlayer(new PlayerHuman());
+            this.CurrentLevel.AddPlayer(new PlayerNPC());
         }
 
         /// <summary>
@@ -205,7 +203,7 @@ namespace AgeOfDragons
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        /// <param name="gameTime"> Provides a snapshot of timing values. </param>
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
@@ -215,7 +213,6 @@ namespace AgeOfDragons
                 this.Exit();
             }
 
-            this.Player.Update(gameTime, this.CurrentLevel);
             this.animationControl.Update(gameTime);
             this.CurrentLevel.Update(gameTime);
 
