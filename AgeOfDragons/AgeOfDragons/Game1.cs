@@ -157,25 +157,25 @@ namespace AgeOfDragons
             tempMap.FowEnabled = true;
             tempMap.PersistentFoW = true;
 
-            var tempPlayerUnits = new List<PlayerUnit>();
-            var tempNPCUnits = new List<NPCUnit>();
+            var tempPlayerUnits = new List<Unit>();
+            var tempNPCUnits = new List<Unit>();
 
             // Makes an AnimatedSprite from a spritesheet, makes a PlayerUnit from it and
             // adds it to the playerUnits list.
             var sprite = this.MakeSprite("Ally", "Lin28px", 28, 28);
-            var playerUnit = new PlayerUnit("Akai", new Vector(5, 3), sprite, new BladesmasterClass());
+            var playerUnit = new PlayerUnit(Unit.GenerateUniqueID(tempPlayerUnits), "Akai", new Vector(5, 3), sprite, new BladesmasterClass());
             tempPlayerUnits.Add(playerUnit);
 
             sprite = this.MakeSprite("Ally", "FemaleAssassin28px", 28, 28);
-            playerUnit = new PlayerUnit("Kitai", new Vector(5, 2), sprite, new AssassinClass());
+            playerUnit = new PlayerUnit(Unit.GenerateUniqueID(tempPlayerUnits), "Kitai", new Vector(5, 2), sprite, new AssassinClass());
             tempPlayerUnits.Add(playerUnit);
 
             sprite = this.MakeSprite("Ally", "FlyingUnit32px", 32, 32);
-            playerUnit = new PlayerUnit("Flyer", new Vector(9, 10), sprite, new FlyingUnitClass());
+            playerUnit = new PlayerUnit(Unit.GenerateUniqueID(tempPlayerUnits), "Flyer", new Vector(9, 10), sprite, new FlyingUnitClass());
             tempPlayerUnits.Add(playerUnit);
 
             sprite = this.MakeSprite("Enemy", "FlyingUnit32px", 32, 32);
-            var enemyUnit = new NPCUnit("Flyer", new Vector(10, 10), sprite, new FlyingUnitClass());
+            var enemyUnit = new NPCUnit(Unit.GenerateUniqueID(tempNPCUnits), "Flyer", new Vector(10, 10), sprite, new FlyingUnitClass());
             tempNPCUnits.Add(enemyUnit);
 
             tempMap.LoadUnits(new List<Unit>(tempPlayerUnits));
@@ -183,11 +183,9 @@ namespace AgeOfDragons
 
             this.CurrentLevel = new Level(
                 new Camera(screenRectangle),
-                tempMap,
-                tempPlayerUnits,
-                tempNPCUnits);
-            this.CurrentLevel.AddPlayer(new PlayerHuman());
-            this.CurrentLevel.AddPlayer(new PlayerNPC());
+                tempMap);
+            this.CurrentLevel.AddPlayer(new PlayerHuman(tempPlayerUnits));
+            this.CurrentLevel.AddPlayer(new PlayerNPC(tempNPCUnits));
         }
 
         /// <summary>

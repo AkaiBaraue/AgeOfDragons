@@ -28,6 +28,24 @@ namespace AgeOfDragons.Players
         #endregion
 
         #region Constructor Region
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlayerNPC"/> class.
+        /// </summary>
+        public PlayerNPC()
+            : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlayerNPC"/> class.
+        /// </summary>
+        /// <param name="units"> The units belonging to the player. </param>
+        public PlayerNPC(List<Unit> units)
+        {
+            this.PlayerUnits = units;
+        }
+
         #endregion
 
         #region Method Region
@@ -43,6 +61,11 @@ namespace AgeOfDragons.Players
         /// <param name="level"> The level in progress. </param>
         public override void Update(GameTime gameTime, Level level)
         {
+            foreach (var playerUnit in this.PlayerUnits)
+            {
+                playerUnit.Update(gameTime);
+            }
+
             if (gameTime.TotalGameTime.Seconds % 10 == 0)
             {
                 this.IsTurnFinished = true;   

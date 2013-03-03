@@ -9,6 +9,8 @@
 
 namespace AgeOfDragons.Players
 {
+    using System.Collections.Generic;
+
     using AgeOfDragons.Components;
     using AgeOfDragons.Units;
 
@@ -17,11 +19,13 @@ namespace AgeOfDragons.Players
     /// <summary>
     /// The base of all players in the game.
     /// </summary>
-    /// <typeparam name="T">
-    /// The type of units the player holds.
-    /// </typeparam>
     public abstract class Player
     {
+        /// <summary>
+        /// Gets or sets the list of units belonging to the player.
+        /// </summary>
+        public List<Unit> PlayerUnits { get; protected set; } 
+
         /// <summary>
         /// Gets or sets a value indicating whether the player's turn is finished
         /// or not.
@@ -52,5 +56,47 @@ namespace AgeOfDragons.Players
         /// the player's turn ends.
         /// </summary>
         public abstract void EndTurn();
+
+        /// <summary>
+        /// Adds multiple units to the list of units the player has
+        /// </summary>
+        /// <param name="units"> The units to add. </param>
+        public void AddUnits(List<Unit> units)
+        {
+            foreach (var unit in units)
+            {
+                this.AddUnit(unit);
+            }
+        }
+
+        /// <summary>
+        /// Adds a single unit to the list of units the player has
+        /// </summary>
+        /// <param name="unit"> The unit to add. </param>
+        public void AddUnit(Unit unit)
+        {
+            this.PlayerUnits.Add(unit);
+        }
+
+        /// <summary>
+        /// Removes multiple units from the list of units the player has
+        /// </summary>
+        /// <param name="units"> The units to remove. </param>
+        public void RemoveUnits(List<Unit> units)
+        {
+            foreach (var unit in units)
+            {
+                this.RemoveUnit(unit);
+            }
+        }
+
+        /// <summary>
+        /// Removes a single unit to the list of units the player has
+        /// </summary>
+        /// <param name="unit"> The unit to remove. </param>
+        public void RemoveUnit(Unit unit)
+        {
+            this.PlayerUnits.Remove(unit);
+        }
     }
 }

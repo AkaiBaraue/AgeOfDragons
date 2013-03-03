@@ -61,14 +61,10 @@ namespace AgeOfDragons.Components
         /// </summary>
         /// <param name="camera"> The camera </param>
         /// <param name="levelMap"> The map </param>
-        /// <param name="playerUnits"> The player units </param>
-        /// <param name="npcUnits"> the NPC units </param>
-        public Level(Camera camera, Map levelMap, List<PlayerUnit> playerUnits, List<NPCUnit> npcUnits)
+        public Level(Camera camera, Map levelMap)
         {
             this.Camera = camera;
             this.LevelMap = levelMap;
-            this.LevelPlayerUnits = playerUnits;
-            this.LevelNPCUnits = npcUnits;
 
             this.PlayerController = new PlayerController();
         }
@@ -99,16 +95,6 @@ namespace AgeOfDragons.Components
         {
             this.Camera.Update(gameTime, this);
             this.PlayerController.Update(gameTime, this);
-
-            foreach (var playerUnit in this.LevelPlayerUnits)
-            {
-                playerUnit.Update(gameTime);
-            }
-
-            foreach (var npcUnit in this.LevelNPCUnits)
-            {
-                npcUnit.Update(gameTime);
-            }
         }
 
         /// <summary>

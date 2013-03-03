@@ -37,6 +37,22 @@ namespace AgeOfDragons.Players
 
         #region Property Region
 
+        /// <summary>
+        /// Gets the list of players.
+        /// </summary>
+        public LinkedList<Player> Players
+        {
+            get { return this.players; }
+        }
+
+        /// <summary>
+        /// Gets the current player.
+        /// </summary>
+        public Player CurrentPlayer
+        {
+            get { return this.currentPlayer.Value; }
+        }
+
         #endregion
 
         #region Constructor Region

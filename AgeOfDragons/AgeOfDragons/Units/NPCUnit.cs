@@ -43,15 +43,15 @@ namespace AgeOfDragons.Units
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PlayerUnit"/> class. 
+        /// Initializes a new instance of the <see cref="NPCUnit"/> class. 
         /// </summary>
-        /// <param name="name"> The name. </param>
-        /// <param name="x"> The x location of the unit.  </param>
-        /// <param name="y"> The y location of the unit.  </param>
+        /// <param name="id"> The id of the unit.  </param>
+        /// <param name="name"> The name.  </param>
+        /// <param name="position"> The position of the unit.  </param>
         /// <param name="sprite"> The sprite. </param>
         /// <param name="unitClass"> The class of the unit. </param>
-        public NPCUnit(string name, Vector position, AnimatedSprite sprite, UnitClass unitClass)
-            : base(name, position, sprite, unitClass)
+        public NPCUnit(int id, string name, Vector position, AnimatedSprite sprite, UnitClass unitClass)
+            : base(id, name, position, sprite, unitClass)
         {
         }
 

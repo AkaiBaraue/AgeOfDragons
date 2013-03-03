@@ -9,6 +9,10 @@
 
 namespace AgeOfDragons.Players
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+
     using AgeOfDragons.Components;
     using AgeOfDragons.Pathfinding;
     using AgeOfDragons.Tile_Engine;
@@ -37,7 +41,7 @@ namespace AgeOfDragons.Players
         /// <summary>
         /// The location of the selected unit.
         /// </summary>
-        private PlayerUnit selectedUnit;
+        private Unit selectedUnit;
 
         #endregion
 
@@ -51,7 +55,17 @@ namespace AgeOfDragons.Players
         /// Initializes a new instance of the <see cref="PlayerHuman"/> class.
         /// </summary>
         public PlayerHuman()
+            : this(null)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlayerHuman"/> class.
+        /// </summary>
+        /// <param name="units"> The units belonging to the player. </param>
+        public PlayerHuman(List<Unit> units)
+        {
+            this.PlayerUnits = units;
             this.unitSelected = false;
         }
 
@@ -66,6 +80,11 @@ namespace AgeOfDragons.Players
         /// <param name="level"> The level in progress. </param>
         public override void Update(GameTime gameTime, Level level)
         {
+            foreach (var playerUnit in this.PlayerUnits)
+            {
+                playerUnit.Update(gameTime);
+            }
+
             if (!this.IsCurrentPlayer)
             {
                 return;
@@ -73,10 +92,22 @@ namespace AgeOfDragons.Players
 
             this.justClicked = false;
 
+            // Just testing stuff
+            if (InputHandler.KeyPressed(Keys.K))
+            {
+                var random = new Random();
+                var toChange = random.Next(this.PlayerUnits.Count);
+                var unit = this.PlayerUnits[toChange];
+                unit.CurrentHealth = unit.CurrentHealth / 2;
+
+                this.PlayerUnits.Remove(unit);
+                level.LevelMap.MoveUnitAway(unit, level);
+            }
+
             this.SelectUnit(level);
             this.DeselectUnit(level);
             this.MoveUnit(level);
-            this.EndPlayersTurn();
+            this.EndPlayersTurn(level);
         }
 
         /// <summary>
@@ -119,7 +150,7 @@ namespace AgeOfDragons.Players
                 var tileY = (int)(InputHandler.MouseState.X + level.Camera.Position.X) / Engine.TileHeight;
                 var tileX = (int)(InputHandler.MouseState.Y + level.Camera.Position.Y) / Engine.TileWidth;
 
-                foreach (var playerUnit in level.LevelPlayerUnits)
+                foreach (var playerUnit in this.PlayerUnits)
                 {
                     // Checks if the unit matches the tile that was clicked.
                     if (playerUnit.Location.X == tileX && playerUnit.Location.Y == tileY)
@@ -189,7 +220,7 @@ namespace AgeOfDragons.Players
                     {
                         // Removes the unit from the list, as we need to change the
                         // position of the unit.
-                        level.LevelPlayerUnits.Remove(this.selectedUnit);
+                        this.PlayerUnits.Remove(this.selectedUnit);
 
                         // Notifies the map that the unit is disappearing from its current
                         // location.
@@ -202,7 +233,7 @@ namespace AgeOfDragons.Players
                         // Notifies the map that the unit has arrived at its target
                         // location and adds the unit to the unit list again.
                         level.LevelMap.MoveUnitToNewPosition(this.selectedUnit);
-                        level.LevelPlayerUnits.Add(this.selectedUnit);
+                        this.PlayerUnits.Add(this.selectedUnit);
 
                         this.unitSelected = false;
                         this.selectedUnit = null;
@@ -217,11 +248,17 @@ namespace AgeOfDragons.Players
         /// <summary>
         /// Ends the player's turn
         /// </summary>
-        private void EndPlayersTurn()
+        /// <param name="level"> The level. </param>
+        private void EndPlayersTurn(Level level)
         {
             if (InputHandler.KeyPressed(Keys.G))
             {
                 this.IsTurnFinished = true;
+
+                this.selectedUnit.MoveUnit();
+                level.LevelMap.MoveUnitToNewPosition(this.selectedUnit);
+                this.unitSelected = false;
+                this.selectedUnit = null;
 
                 // Ensures that other parts in the update method won't be triggered.
                 this.justClicked = true;

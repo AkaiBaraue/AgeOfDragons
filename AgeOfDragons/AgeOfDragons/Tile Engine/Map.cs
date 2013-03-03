@@ -319,78 +319,106 @@ namespace AgeOfDragons.Tile_Engine
         }
 
         /// <summary>
+        /// Draws the unit as a player unit
+        /// </summary>
+        /// <param name="gameTime"> A snapshot of timing values. </param>
+        /// <param name="level"> The current level. </param>
+        /// <param name="playerUnit"> The unit </param>
+        private void DrawPlayerUnit(GameTime gameTime, Level level, Unit playerUnit)
+        {
+            var unitOffsetX = (Engine.TileHeight / 2)
+                                 - (playerUnit.Sprite.Height / 2);
+            var unitOffsetY = (Engine.TileWidth / 2)
+                          - (playerUnit.Sprite.Width / 2);
+
+            // Converts the position of the unit to a vector that represents a
+            // location on the gamescreen.
+            var vect = new Vector2(
+                (playerUnit.Sprite.Position.Y * Engine.TileHeight) - level.Camera.Position.X + unitOffsetY,
+                (playerUnit.Sprite.Position.X * Engine.TileWidth) - level.Camera.Position.Y + unitOffsetX);
+
+            // Draws the unit.
+            playerUnit.Draw(
+                gameTime,
+                Game1.SpriteBatch,
+                vect);
+        }
+
+        /// <summary>
+        /// Draws the unit as a npc unit
+        /// </summary>
+        /// <param name="gameTime"> A snapshot of timing values. </param>
+        /// <param name="level"> The current level. </param>
+        /// <param name="npcUnit"> The unit </param>
+        private void DrawNPCUnit(GameTime gameTime, Level level, Unit npcUnit)
+        {
+            // Draws the NPC is Fog of War is not enabled.
+            if (!this.FowEnabled)
+            {
+                var unitOffsetX = (Engine.TileHeight / 2)
+                              - (npcUnit.Sprite.Height / 2);
+                var unitOffsetY = (Engine.TileWidth / 2)
+                              - (npcUnit.Sprite.Width / 2);
+
+                // Converts the position of the unit to a vector that represents a
+                // location on the gamescreen.
+                var vect = new Vector2(
+                (npcUnit.Sprite.Position.Y * Engine.TileHeight) - level.Camera.Position.X + unitOffsetY,
+                (npcUnit.Sprite.Position.X * Engine.TileWidth) - level.Camera.Position.Y + unitOffsetX);
+
+                // Draws the unit.
+                npcUnit.Draw(
+                    gameTime,
+                    Game1.SpriteBatch,
+                    vect);
+
+                return;
+            }
+
+            // If FoW is enabled and the square the npc unit is on is visible, draw the unit.
+            if (this.IsVisible(npcUnit.Location.X, npcUnit.Location.Y))
+            {
+                var unitOffsetX = (Engine.TileHeight / 2)
+                              - (npcUnit.Sprite.Height / 2);
+                var unitOffsetY = (Engine.TileWidth / 2)
+                              - (npcUnit.Sprite.Width / 2);
+
+                // Converts the position of the unit to a vector that represents a
+                // location on the gamescreen.
+                var vect = new Vector2(
+                (npcUnit.Sprite.Position.Y * Engine.TileHeight) - level.Camera.Position.X + unitOffsetY,
+                (npcUnit.Sprite.Position.X * Engine.TileWidth) - level.Camera.Position.Y + unitOffsetX);
+
+                // Draws the unit.
+                npcUnit.Draw(
+                    gameTime,
+                    Game1.SpriteBatch,
+                    vect);
+            }
+        }
+
+        /// <summary>
         /// Draws the units on the DataMap.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         /// <param name="level"> The level in progress. </param>
         private void DrawUnits(GameTime gameTime, Level level)
         {
-            // Iterates over all PlayerUnits and draws them on the map.
-            foreach (var playerUnit in level.LevelPlayerUnits)
+            // Iterates over every player in the level's playercontroller
+            // and draws the units belonging to each player.
+            foreach (var player in level.PlayerController.Players)
             {
-                var unitOffsetX = (Engine.TileHeight / 2)
-                              - (playerUnit.Sprite.Height / 2);
-                var unitOffsetY = (Engine.TileWidth / 2)
-                              - (playerUnit.Sprite.Width / 2);
-
-                // Converts the position of the unit to a vector that represents a
-                // location on the gamescreen.
-                var vect = new Vector2(
-                    (playerUnit.Sprite.Position.Y * Engine.TileHeight) - level.Camera.Position.X + unitOffsetY,
-                    (playerUnit.Sprite.Position.X * Engine.TileWidth) - level.Camera.Position.Y + unitOffsetX);
-
-                // Draws the unit.
-                playerUnit.Draw(
-                    gameTime, 
-                    Game1.SpriteBatch, 
-                    vect);
-            }
-
-            // Iterates over all enemyUnits and draws them on the map.
-            foreach (var npcUnit in level.LevelNPCUnits)
-            {
-                // Draws the NPC is Fog of War is not enabled.
-                if (!this.FowEnabled)
+                foreach (var unit in player.PlayerUnits)
                 {
-                    var unitOffsetX = (Engine.TileHeight / 2)
-                                  - (npcUnit.Sprite.Height / 2);
-                    var unitOffsetY = (Engine.TileWidth / 2)
-                                  - (npcUnit.Sprite.Width / 2);
+                    if (unit is PlayerUnit)
+                    {
+                        this.DrawPlayerUnit(gameTime, level, unit);
+                    }
 
-                    // Converts the position of the unit to a vector that represents a
-                    // location on the gamescreen.
-                    var vect = new Vector2(
-                    (npcUnit.Sprite.Position.Y * Engine.TileHeight) - level.Camera.Position.X + unitOffsetY,
-                    (npcUnit.Sprite.Position.X * Engine.TileWidth) - level.Camera.Position.Y + unitOffsetX);
-
-                    // Draws the unit.
-                    npcUnit.Draw(
-                        gameTime,
-                        Game1.SpriteBatch,
-                        vect);
-
-                    continue;
-                }
-
-                // If FoW is enabled and the square the npc unit is on is visible, draw the unit.
-                if (this.IsVisible(npcUnit.Location.X, npcUnit.Location.Y))
-                {
-                    var unitOffsetX = (Engine.TileHeight / 2)
-                                  - (npcUnit.Sprite.Height / 2);
-                    var unitOffsetY = (Engine.TileWidth / 2)
-                                  - (npcUnit.Sprite.Width / 2);
-
-                    // Converts the position of the unit to a vector that represents a
-                    // location on the gamescreen.
-                    var vect = new Vector2(
-                    (npcUnit.Sprite.Position.Y * Engine.TileHeight) - level.Camera.Position.X + unitOffsetY,
-                    (npcUnit.Sprite.Position.X * Engine.TileWidth) - level.Camera.Position.Y + unitOffsetX);
-
-                    // Draws the unit.
-                    npcUnit.Draw(
-                        gameTime, 
-                        Game1.SpriteBatch, 
-                        vect);
+                    if (unit is NPCUnit)
+                    {
+                        this.DrawNPCUnit(gameTime, level, unit);
+                    }
                 }
             }
         }
@@ -521,7 +549,7 @@ namespace AgeOfDragons.Tile_Engine
 
         /// <summary>
         /// Adds FoW to the area surrounding the unit.
-        /// Mainly used when a uint is moved.
+        /// Mainly used when a unit is moved.
         /// </summary>
         /// <param name="unit"> The unit to add FoW around. </param>
         /// <param name="level"> The level in progress. </param>
@@ -540,7 +568,7 @@ namespace AgeOfDragons.Tile_Engine
                     }
                 }
 
-                foreach (var playerUnit in level.LevelPlayerUnits)
+                foreach (var playerUnit in level.PlayerController.CurrentPlayer.PlayerUnits)
                 {
                     playerUnit.HasProcessedFoW = false;
                     this.RemoveFoW(playerUnit);

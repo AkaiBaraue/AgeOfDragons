@@ -10,6 +10,8 @@
 namespace AgeOfDragons.Units
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     using AgeOfDragons.Pathfinding;
     using AgeOfDragons.Sprite_Classes;
@@ -22,7 +24,7 @@ namespace AgeOfDragons.Units
     /// <summary>
     /// The base unit class.
     /// </summary>
-    public abstract class Unit
+    public abstract class Unit : IEquatable<Unit>
     {
         #region Field Region
 
@@ -30,6 +32,11 @@ namespace AgeOfDragons.Units
         /// The name of the unit.
         /// </summary>
         private readonly string name;
+
+        /// <summary>
+        /// The ID of the unit.
+        /// </summary>
+        private readonly int id;
 
         /// <summary>
         /// The sprite that represents the unit.
@@ -55,6 +62,14 @@ namespace AgeOfDragons.Units
         #endregion
 
         #region Property Region
+
+        /// <summary>
+        /// Gets the id of the unit.
+        /// </summary>
+        public int ID
+        {
+            get { return this.id; }
+        }
 
         /// <summary>
         /// Gets the name of the unit.
@@ -180,12 +195,14 @@ namespace AgeOfDragons.Units
         /// <summary>
         /// Initializes a new instance of the <see cref="Unit"/> class.
         /// </summary>
+        /// <param name="id"> The id of the unit.  </param>
         /// <param name="name"> The name.  </param>
         /// <param name="position"> The position of the unit.  </param>
         /// <param name="sprite"> The sprite. </param>
         /// <param name="unitClass"> The class of the unit. </param>
-        protected Unit(string name, Vector position, AnimatedSprite sprite, UnitClass unitClass)
+        protected Unit(int id, string name, Vector position, AnimatedSprite sprite, UnitClass unitClass)
         {
+            this.id = id;
             this.name = name;
             this.CurrentHealth = 100;
             this.MaxHealth = 100;
@@ -303,9 +320,100 @@ namespace AgeOfDragons.Units
             return true;
         }
 
+        /// <summary>
+        /// Generates a unique ID for the unit based on the other units
+        /// in the list.
+        /// </summary>
+        /// <param name="units"> The list of units to compare to. </param>
+        /// <returns> A unique ID. </returns>
+        public static int GenerateUniqueID(List<Unit> units)
+        {
+            var random = new Random();
+            var unique = false;
+            var idsInUse = new int[units.Count];
+
+            for (int i = 0; i < units.Count; i++)
+            {
+                idsInUse[i] = units[i].id;
+            }
+
+            int uniqueID = random.Next(10000);
+
+            while (!unique)
+            {
+                if (idsInUse.Any(s => uniqueID == s))
+                {
+                    uniqueID = random.Next(10000);
+                }
+                else
+                {
+                    unique = true;
+                }
+            }
+
+            return uniqueID;
+        }
+
         #endregion
 
         #region Virtual Method region
+
+        /// <summary>
+        /// Checks if the given unit is equal to this unit.
+        /// </summary>
+        /// <param name="other"> The unit to check. </param>
+        /// <returns> True if they are equal. </returns>
+        public bool Equals(Unit other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return Equals(other.name, this.name) && other.id == this.id;
+        }
+
+        /// <summary>
+        /// Checks if the given object is equal to this unit.
+        /// </summary>
+        /// <param name="obj"> The object to check. </param>
+        /// <returns> True if they are equal. </returns>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != typeof(Unit))
+            {
+                return false;
+            }
+
+            return this.Equals((Unit)obj);
+        }
+
+        /// <summary>
+        /// Generates a hashcode for the unit.
+        /// </summary>
+        /// <returns> The hashcode. </returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (this.name.GetHashCode() * 397) ^ this.id;
+            }
+        }
 
         #endregion
     }
