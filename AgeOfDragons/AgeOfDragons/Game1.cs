@@ -21,7 +21,6 @@ namespace AgeOfDragons
     using AgeOfDragons.Units.Unit_Types;
 
     using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
 
