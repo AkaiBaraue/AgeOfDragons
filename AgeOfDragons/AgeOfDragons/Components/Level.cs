@@ -18,7 +18,8 @@ namespace AgeOfDragons.Components
     using Microsoft.Xna.Framework;
 
     /// <summary>
-    /// A class that controls an entire level.
+    /// The Level class represents a level in the game with map 
+    /// and players in the level.
     /// </summary>
     public class Level
     {

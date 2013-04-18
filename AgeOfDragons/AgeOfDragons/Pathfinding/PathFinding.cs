@@ -48,23 +48,29 @@ namespace AgeOfDragons.Pathfinding
             validMovesList.Add(startVector);
             validMoves.AddFirst(startVector);
 
+            // While there are places left to check ...
             while (validMoves.Count > 0)
             {
+                // ... get the first move
                 var moveNode = validMoves.First.Value;
                 validMoves.RemoveFirst();
 
+                // Find further possible moves
                 foreach (var neighborNode in NeighborNodes(moveNode))
                 {
                     var tempVector = new Vector(neighborNode.X, neighborNode.Y);
 
+                    // If the point has been visited, ignore it
                     if (validMovesList.Contains(tempVector) ||
                         !unit.PointWithinMoveRange(tempVector))
                     {
                         continue;
                     }
 
+                    // If the unit can move there ...
                     if (dataMapData.WithinMapMoveRangeAndCanTraverse(tempVector.X, tempVector.Y, unit))
                     {
+                        // ... add it to the list.
                         validMoves.AddLast(tempVector);
                         validMovesList.Add(tempVector);
                     }
@@ -88,6 +94,7 @@ namespace AgeOfDragons.Pathfinding
         /// </returns>
         public static List<Vector> FindShortestPathWithinReach(Vector start, Vector goal, Unit unit, MapData dataMap)
         {
+            // Set stuff up
             var closedList = new List<Vector>();
             var openList = new List<Vector>();
             var openListQueue = new PriorityQueue<Vector, int>();
@@ -105,8 +112,10 @@ namespace AgeOfDragons.Pathfinding
                 return openList;
             }
 
+            // While the queue isn't empty ...
             while (!openListQueue.Empty)
             {
+                // ... get highest prioritied point
                 var current = openListQueue.Dequeue();
                 openList.Remove(current);
 
@@ -117,13 +126,17 @@ namespace AgeOfDragons.Pathfinding
 
                 closedList.Add(current);
 
+                // Iterates over nearby points
                 foreach (var neighbor in NeighborNodes(current))
                 {
+                    // If the point has been visited, ignore it
                     if (closedList.Contains(neighbor))
                     {
                         continue;
                     }
 
+                    // If it hasn't been visited and the unit can reach it, add it
+                    // to the list.
                     if (!openList.Contains(neighbor) 
                         && dataMap.WithinMapAndCanTraverse(neighbor.X, neighbor.Y, unit) 
                         && CostEstimate(unit.Location, neighbor) <= unit.MoveRange)

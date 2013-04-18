@@ -66,6 +66,8 @@ namespace AgeOfDragons.Players
                 playerUnit.Update(gameTime);
             }
 
+            // Stupid AI
+            // TODO: Improve
             if (gameTime.TotalGameTime.Seconds % 10 == 0)
             {
                 this.IsTurnFinished = true;   

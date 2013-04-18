@@ -98,9 +98,7 @@ namespace AgeOfDragons.Sprite_Classes
         public float Speed
         {
             get { return this.speed; }
-// ReSharper disable ValueParameterNotUsed
             set { this.speed = MathHelper.Clamp(this.speed, 1.0f, 16.0f); }
-// ReSharper restore ValueParameterNotUsed
         }
 
         /// <summary>

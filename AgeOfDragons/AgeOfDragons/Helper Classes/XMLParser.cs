@@ -27,6 +27,7 @@ namespace AgeOfDragons.Helper_Classes
 
     /// <summary>
     /// A class that can parse XML data to TileMap files.
+    /// TODO: Find the link to where this class was found.
     /// </summary>
     public class XMLParser
     {

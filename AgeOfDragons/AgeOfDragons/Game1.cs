@@ -109,7 +109,6 @@ namespace AgeOfDragons
                 };
 
             // Initializes player and mapLoader
-//            this.player = new PlayerHuman();
             this.mapLoader = new MapLoader();
 
             // Adds the InputHandler to the components collection, allowing it to
